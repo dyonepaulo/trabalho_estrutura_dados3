@@ -5,7 +5,7 @@
 #include <raylib.h>
 #include <stdio.h>
 
-void barra_vida(player *jogador)
+void barra_de_status(player *jogador)
 {
     // barra de vida
     Rectangle retangulofundo = {20, 20, 300, 30};

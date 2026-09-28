@@ -2,6 +2,6 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 
-void barra_vida(player *jogador);
+void barra_de_status(player *jogador);
 
 #endif
