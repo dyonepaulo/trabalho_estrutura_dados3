@@ -29,31 +29,38 @@ typedef struct {
 
 typedef struct
 {
-    int id_player, vida, escudo, dmg_buff, heal_buff;
+    int id_player, vida_atual, escudo, dmg_buff, heal_buff;
     carta mao;
 } player;
 
 // DEFINICAO DAS CARTAS
 
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description, 
-carta machado_de_assis = {1, 1, 20, 0, 0, 0, 0, 0, 0, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
+//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
+// dano
+extern carta machado_assis;
 
-carta lágrimas = {2, 1, 0, 15, 0, 0, 0, 0, 0, "Lágrimas da santa", "cura 15 de pv", "Lágrimas de uma santa esquecida pelo tempo, possuem propriedades de cura."};
+extern carta myke;
+// cura
+extern carta lágrimas;
 
-carta escudo = {3, 1, 0, 0, 10, 0, 0, 0, 0, "Placa de aço", "Da 10 de escudo", "Uma placa de aço de procedência desconhecida, encontrada jogada por aí. \"Do androids dream of eletrical sheep?\""};
+extern carta escudo;
 
-carta marca_besta = {4, 1, 0, 0, 0, 15, 0, 10, 0, "Marca da besta", "aumenta o dano causado em 15 e recebido em 10", "Maldição que aumenta o dano inflingido ao custo de fragilizar o portador"};
+extern carta aura;
+// buff
+extern carta marca_besta;
 
-carta espinafre = {5, 1, 0, 0, 0, 10, 0, 0, 0, "leite de boi", "aumenta o dano em 10", "deixa o caba mais forte"};
+extern carta espinafre;
 
-carta myke = {6, 2, 35, 0, 0, 0, 0, 0, 0, "mike tyson", "Causa 35 de dano", "evitherathe your enemith"};
+extern carta benção;
+// debuff
+extern carta beijo;
 
-carta beijo = {7, 1, 0, 0, 0, 0, 0, -10, 0, "Beijo de judas", "diminui o dano do seu inimigo em 10", "No future for betrayers."};
-
-carta marca = {8, 1, 0, 0, 0, 0, 0, 0, -4, "marca da morte", "diminui a cura do inimigo em 4", "lets dance"};
+extern carta marca_morte;
 
 // VARIAVEIS
 
 Vector2 posicao = {0, 0};
+
+vida_atual;
 
 #endif
