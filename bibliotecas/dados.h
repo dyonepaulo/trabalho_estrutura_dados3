@@ -31,13 +31,14 @@ typedef struct
 
 typedef struct
 {
-    int id_player, vida_atual, escudo, dmg_buff, heal_buff;
+    int id_player, vida_atual, escudo, dmg_buff, heal_buff, energia;
     carta mao;
 } player;
 
 // DEFINICAO DAS CARTAS
 
 //id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
+
 // dano
 extern carta machado_assis;
 
@@ -61,10 +62,13 @@ extern carta marca_morte;
 
 // VARIAVEIS
 
-extern Vector2 posicao = {0, 0};
-
-extern int vida_atual;
+extern Vector2 posicao;
 
 extern char texto_vida[3];
+
+extern char texto_energia[3];
+
+extern char texto_escudo[3];
+
 
 #endif
