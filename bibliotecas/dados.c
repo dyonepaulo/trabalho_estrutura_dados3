@@ -23,3 +23,7 @@ carta benção = {10, 1, 0, 0, 0, 0, 3, 0, 0, "Benção da desgraça", "aumenta 
 carta beijo = {7, 1, 0, 0, 0, 0, 0, -10, 0, "Beijo de judas", "diminui o dano do seu inimigo em 10", "\"\""};
 
 carta marca_morte = {8, 1, 0, 0, 0, 0, 0, 0, -4, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
+
+Vector2 posicao = {0,0};
+
+char texto_vida[3];

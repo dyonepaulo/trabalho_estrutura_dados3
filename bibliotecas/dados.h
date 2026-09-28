@@ -37,14 +37,8 @@ typedef struct
 
 // DEFINICAO DAS CARTAS
 
-<<<<<<< HEAD
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
-// dano
-extern carta machado_assis;
-=======
 // id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description,
-carta machado_de_assis = {1, 1, 20, 0, 0, 0, 0, 0, 0, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
->>>>>>> 4727ab4eda5835dc587abc117e43ec78e33118b5
+extern carta machado_assis;
 
 extern carta myke;
 // cura
@@ -66,9 +60,7 @@ extern carta marca_morte;
 
 // VARIAVEIS
 
-extern Vector2 posicao = {0, 0};
-
-extern int vida_atual;
+extern Vector2 posicao;
 
 extern char texto_vida[3];
 
