@@ -4,7 +4,7 @@ int main()
 {
     InitWindow(1280, 720, "CARD GAMES");
     SetTargetFPS(60);
-    Texture2D background = LoadTexture("/home/dyone/Área de trabalho/estrutura de dados/trabalho_estrutura_dados3/assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
+    Texture2D background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
     while (!WindowShouldClose())
     {
         BeginDrawing();
