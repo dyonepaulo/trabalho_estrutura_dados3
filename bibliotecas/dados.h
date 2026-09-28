@@ -37,7 +37,9 @@ typedef struct
 
 // DEFINICAO DAS CARTAS
 
-// id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description,
+//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
+
+// dano
 extern carta machado_assis;
 
 extern carta myke;
