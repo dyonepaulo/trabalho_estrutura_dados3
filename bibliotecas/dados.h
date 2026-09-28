@@ -29,7 +29,7 @@ typedef struct {
 
 typedef struct
 {
-    int id_player, vida, escudo, dmg_buff, heal_buff;
+    int id_player, vida_atual, escudo, dmg_buff, heal_buff;
     carta mao;
 } player;
 
@@ -55,5 +55,7 @@ carta marca = {8, 1, 0, 0, 0, 0, 0, 0, -4, "marca da morte", "diminui a cura do 
 // VARIAVEIS
 
 Vector2 posicao = {0, 0};
+
+vida_atual;
 
 #endif
