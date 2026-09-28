@@ -18,7 +18,7 @@ int main()
     {
         BeginDrawing();
         DrawTextureEx(background, posicao, 0, 0.7646f, WHITE);
-        barra_vida(&jogador);
+        barra_de_status(&jogador);
         ClearBackground(RAYWHITE);
         EndDrawing();
     }
