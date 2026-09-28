@@ -2,8 +2,8 @@
 
 // DEFINICAO DAS CARTAS
 
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
-// dano
+// id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
+//  dano
 carta machado_assis = {1, 1, 20, 0, 0, 0, 0, 0, 0, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
 
 carta myke = {6, 2, 35, 0, 0, 0, 0, 0, 0, "mike tyson", "Causa 35 de dano", "\"evitherathe your enemith\""};
@@ -24,6 +24,12 @@ carta beijo = {7, 1, 0, 0, 0, 0, 0, -10, 0, "Beijo de judas", "diminui o dano do
 
 carta marca_morte = {8, 1, 0, 0, 0, 0, 0, 0, -4, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
 
-Vector2 posicao = {0,0};
+// VARIAVEIS
+
+Vector2 posicao = {0, 0};
 
 char texto_vida[3];
+
+char texto_energia[3];
+
+char texto_escudo[3];

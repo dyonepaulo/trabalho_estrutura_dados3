@@ -8,6 +8,8 @@ int main()
 
     player jogador;
     jogador.vida_atual = 67;
+    jogador.escudo = 15;
+    jogador.energia =1;
 
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);

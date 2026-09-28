@@ -31,7 +31,7 @@ typedef struct
 
 typedef struct
 {
-    int id_player, vida_atual, escudo, dmg_buff, heal_buff;
+    int id_player, vida_atual, escudo, dmg_buff, heal_buff, energia;
     carta mao;
 } player;
 
@@ -63,5 +63,10 @@ extern carta marca_morte;
 extern Vector2 posicao;
 
 extern char texto_vida[3];
+
+extern char texto_energia[3];
+
+extern char texto_escudo[3];
+
 
 #endif
