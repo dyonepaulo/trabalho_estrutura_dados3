@@ -1,3 +1,4 @@
+#include <raylib.h>
 #ifndef VARIAVEIS_H
 #define VARIAVEIS_H
 
@@ -23,7 +24,8 @@ typedef struct
     nos *ultimo;
 } fila;
 
-typedef struct {
+typedef struct
+{
     nos *topo;
 } lixeira;
 
@@ -35,7 +37,7 @@ typedef struct
 
 // DEFINICAO DAS CARTAS
 
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description, 
+// id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description,
 carta machado_de_assis = {1, 1, 20, 0, 0, 0, 0, 0, 0, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
 
 carta lágrimas = {2, 1, 0, 15, 0, 0, 0, 0, 0, "Lágrimas da santa", "cura 15 de pv", "Lágrimas de uma santa esquecida pelo tempo, possuem propriedades de cura."};
@@ -54,8 +56,10 @@ carta marca = {8, 1, 0, 0, 0, 0, 0, 0, -4, "marca da morte", "diminui a cura do 
 
 // VARIAVEIS
 
-Vector2 posicao = {0, 0};
+extern Vector2 posicao = {0, 0};
 
-vida_atual;
+extern int vida_atual;
+
+extern char texto_vida[3];
 
 #endif
