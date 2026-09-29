@@ -70,5 +70,12 @@ extern char texto_energia[3];
 
 extern char texto_escudo[3];
 
+extern int turno;
+
+extern player jogador1;
+
+extern player jogador2;
+
+
 
 #endif

@@ -33,3 +33,9 @@ char texto_vida[3];
 char texto_energia[3];
 
 char texto_escudo[3];
+
+int turno = 0;
+
+player jogador1 = {1, 100, 20, 0, 0, 2};
+
+player jogador2 = {1, 50, 20, 0, 0, 2};
