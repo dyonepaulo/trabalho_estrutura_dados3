@@ -33,33 +33,35 @@ void barra_de_status(player *jogador)
     return;
 }
 
-int gerar_cartas(carta carta, nos no, fila fila)
-{
+void gerar_cartas_p1(nos no, fila fila){
     int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
 
     int contador[10] = {0}; // conta quantas vezes cada carta já apareceu
-    int fila_cartas_p1[10]; // fila de cartas do player 1
-    int fila_cartas_p2[10]; // fila de cartas do player 2
+    int fila_cartas_p1[10]; // fila dos IDs das cartas do player 1
 
     srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++){
         do
         {
-
             fila_cartas_p1[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
         } while (contador[fila_cartas_p1[i]] >= limite[fila_cartas_p1[i]]); // verifica quantas vezes o ID foi gerado
         contador[fila_cartas_p1[i]]++; // conta quantas vezes o ID apareceu
     }
+}
+
+void gerar_cartas_p2(nos *no, fila *fila){
+
+    int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
+
+    int contador[10] = {0}; // conta quantas vezes cada carta já apareceu
+    int fila_cartas_p2[10]; // fila dos IDs das cartas do player 2
 
     srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++){
         do
         {
-
             fila_cartas_p2[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
-        } while (contador[fila_cartas_p2[i]] >= limite[fila_cartas_p2[i]]);
-        contador[fila_cartas_p1[i]]++; // conta quantas vezes o ID apareceu
+        } while (contador[fila_cartas_p2[i]] >= limite[fila_cartas_p2[i]]); // verifica quantas vezes o ID foi gerado
+        contador[fila_cartas_p2[i]]++; // conta quantas vezes o ID apareceu
     }
 }
