@@ -27,5 +27,7 @@ int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2);
 
 void carregar_imagens_cartas(void);
 
+void visor_lixeiera(nos **lixeira);
+
 
 #endif

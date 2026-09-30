@@ -20,9 +20,9 @@ carta espinafre = {7, 1, 0, 0, 0, 10, 0, 0, 0, 1, .card_operation = Fespinafre, 
 
 carta benção = {8, 1, 0, 0, 0, 0, 3, 0, 0, 1, .card_operation = Fbenção, "Benção da desgraça", "aumenta a eficiencia de cartas de cura em 3", "\"You feel blessed\""};
 // debuff
-carta beijo = {9, 1, 0, 0, 0, 0, 0, -10, 0, 1, .card_operation = Fbeijo, "Beijo de judas", "diminui o dano do seu inimigo em 10", "Um símbolo de traição e a venda de seus companheiros."};
+carta beijo = {9, 1, 0, 0, 0, 0, 0, 10, 0, 1, .card_operation = Fbeijo, "Beijo de judas", "diminui o dano do seu inimigo em 10", "Um símbolo de traição e a venda de seus companheiros."};
 
-carta marca_morte = {10, 1, 0, 0, 0, 0, 0, 0, -4, 1, .card_operation = Fmarca_morte, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
+carta marca_morte = {10, 1, 0, 0, 0, 0, 0, 0, 4, 1, .card_operation = Fmarca_morte, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
 
 // VARIAVEIS
 

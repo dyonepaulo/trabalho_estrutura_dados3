@@ -8,16 +8,32 @@ int main()
 {
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
-    lixeira *lixeira = calloc(1,sizeof(lixeira));
+    nos *lixeira = calloc(1, sizeof(nos));
+    
 
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
     Texture2D background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
     Texture2D logo = LoadTexture("assets/exugames.png");
     carregar_imagens_cartas();
+
+    lixeira->carta = machado_assis;
+    lixeira->status = 1;
     while (!WindowShouldClose())
     {
+        printf("=== TESTE DA LIXEIRA ===\n");
+
+        printf("ID da textura original: %u\n", machado_assis.imagem_carta.id);
+        printf("Largura original: %d\n", machado_assis.imagem_carta.width);
+        printf("Altura original: %d\n", machado_assis.imagem_carta.height);
+
+        printf("\n--- LIXEIRA ---\n");
+
+        printf("ID da textura na lixeira: %u\n", lixeira->carta.imagem_carta.id);
+        printf("Largura na lixeira: %d\n", lixeira->carta.imagem_carta.width);
+        printf("Altura na lixeira: %d\n", lixeira->carta.imagem_carta.height);
         BeginDrawing();
+        ClearBackground(BLACK);
         if (tela_menu == 0)
         {
 
@@ -37,8 +53,10 @@ int main()
             if (turno == 0 && jogador1.energia != 0)
             {
                 barra_de_status(&jogador1);
+                visor_lixeiera(&lixeira);
                 ClearBackground(RAYWHITE);
-                turno = 1;
+                if (jogador1.energia == 0)
+                    turno = 1;
             }
             else
             {
@@ -50,7 +68,7 @@ int main()
                 }
             }
         }
-        ClearBackground(BLACK);
+        
         EndDrawing();
     }
     CloseWindow();

@@ -33,40 +33,72 @@ void barra_de_status(player *jogador)
     return;
 }
 
-void gerar_cartas_p1(nos no, fila fila)
+void inserirNode(fila *fila)
 {
-    int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
+    nos *node = calloc(1, sizeof(nos));
 
-    int contador[10] = {0}; // conta quantas vezes cada carta já apareceu
-    int fila_cartas_p1[10]; // fila dos IDs das cartas do player 1
-
-    srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++)
+    if (node == NULL)
     {
-        do
-        {
-            fila_cartas_p1[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
-        } while (contador[fila_cartas_p1[i]] >= limite[fila_cartas_p1[i]]); // verifica quantas vezes o ID foi gerado
-        contador[fila_cartas_p1[i]]++; // conta quantas vezes o ID apareceu
+        printf("Falha na alocação de memória. ");
+        exit(1);
+    }
+
+    if (fila->primeiro == NULL)
+    {
+        fila->primeiro = node;
+        fila->ultimo = node;
+    }
+    else
+    {
+        fila->ultimo->proximo = node;
+        fila->ultimo = node;
+        node->proximo = NULL;
     }
 }
 
-void gerar_cartas_p2(nos *no, fila *fila)
+void gerar_cartas_p1(fila *fila)
 {
+    for (int i = 0; i < 10; i++)
+        inserirNode(fila);
 
+    nos *current = fila->primeiro;
     int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-
-    int contador[10] = {0}; // conta quantas vezes cada carta já apareceu
-    int fila_cartas_p2[10]; // fila dos IDs das cartas do player 2
+    int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
 
     srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++)
-    {
+
+    while (current)
+    { // condição de saída do loop: somente quando current == NULL
         do
         {
-            fila_cartas_p2[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
-        } while (contador[fila_cartas_p2[i]] >= limite[fila_cartas_p2[i]]); // verifica quantas vezes o ID foi gerado
-        contador[fila_cartas_p2[i]]++; // conta quantas vezes o ID apareceu
+            current->id = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
+        } while (contador[current->id - 1] >= limite[current->id - 1]); // verifica quantas vezes o ID foi gerado
+        contador[current->id - 1]++; // conta quantas vezes o ID apareceu
+
+        current = current->proximo;
+    }
+}
+
+void gerar_cartas_p2(fila *fila)
+{
+    for (int i = 0; i < 10; i++)
+        inserirNode(fila);
+
+    nos *current = fila->primeiro;
+    int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
+    int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
+
+    srand(time(NULL)); // define seed pro sorteador
+
+    while (current)
+    { // condição de saída do loop: somente quando current == NULL
+        do
+        {
+            current->id = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
+        } while (contador[current->id - 1] >= limite[current->id - 1]); // verifica quantas vezes o ID foi gerado
+        contador[current->id - 1]++; // conta quantas vezes o ID apareceu
+
+        current = current->proximo;
     }
 }
 
@@ -175,18 +207,18 @@ int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2)
     if (turno == 0)
     {
         jogador_afetado = jogador1;
-        jogador_afetado->dmg_buff += 15;
+        jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
 
         jogador_afetado = jogador2;
-        jogador_afetado->dmg_buff += 10;
+        jogador_afetado->dmg_buff += ptr->dmg_buff_enemy;
     }
     else
     {
         jogador_afetado = jogador2;
-        jogador_afetado->dmg_buff += 15;
+        jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
 
         jogador_afetado = jogador1;
-        jogador_afetado->dmg_buff += 10;
+        jogador_afetado->dmg_buff += ptr->dmg_buff_enemy;
     }
 
     ptr->turns_cont--;
@@ -206,7 +238,7 @@ int Fespinafre(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador2;
     }
 
-    jogador_afetado->dmg_buff += 10;
+    jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
     ptr->turns_cont--;
 
     return 0;
@@ -225,7 +257,7 @@ int Fbenção(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador2;
     }
 
-    jogador_afetado->heal_buff += 3;
+    jogador_afetado->heal_buff += ptr->heal_buff_ally;
     ptr->turns_cont--;
 
     return 0;
@@ -244,7 +276,7 @@ int Fbeijo(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador1;
     }
 
-    jogador_afetado->dmg_buff -= 10;
+    jogador_afetado->dmg_buff -= ptr->dmg_buff_ally;
     ptr->turns_cont--;
 
     return 0;
@@ -263,7 +295,7 @@ int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador1;
     }
 
-    jogador_afetado->heal_buff -= 4;
+    jogador_afetado->heal_buff -= ptr->heal_buff_enemy;
     ptr->turns_cont--;
 
     return 0;
@@ -271,7 +303,7 @@ int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2)
 
 void carregar_imagens_cartas(void)
 {
-    //coloca todos os sprites das cartas na struct de cada uma 
+    // coloca todos os sprites das cartas na struct de cada uma
     machado_assis.imagem_carta = LoadTexture("assets/machadoDeAssis.png");
     aura.imagem_carta = LoadTexture("assets/aura.png");
     mike.imagem_carta = LoadTexture("assets/MikeTyson.png");
@@ -283,11 +315,22 @@ void carregar_imagens_cartas(void)
     beijo.imagem_carta = LoadTexture("assets/beijo-removebg-preview.png");
     benção.imagem_carta = LoadTexture("assets/bencao.png");
 }
-void visor_lixeiera(nos **lixeira){
-    if((*lixeira)->status == 0){
-
+void visor_lixeiera(nos **lixeira) // ta imcompleto
+{
+    char texto[20];
+    if ((*lixeira)->status == 0)
+    {
+        DrawRectangle(10, 400, 220, 310, GRAY);
+        DrawText("LIXEIRA VAZIA", 40, 550, 20, BLACK);
         return;
     }
-    
-    
+    else
+    {
+        if ((*lixeira)->carta.dano > 0)
+        {
+            DrawRectangle(10, 370, 220, 330, GRAY);
+            DrawTextureEx((*lixeira)->carta.imagem_carta, (Vector2){-50, 375}, 0, .7, RAYWHITE);
+            DrawText(texto, 40,380, 20, BLACK);
+        }
+    }
 }
