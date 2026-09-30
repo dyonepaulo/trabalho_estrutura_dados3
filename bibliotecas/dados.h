@@ -13,12 +13,14 @@ struct carta
     int ID, energia, dano, cura, escudo, dmg_buff_ally, heal_buff_ally, dmg_buff_enemy, heal_buff_enemy, turns_cont;
     int (*card_operation)(carta *ptr, player *jogador1, player *jogador2); // ponteiro para uma função que retorna um int e utiliza ponteiros para struct carta e player como parâmetros;
     char nome[30], stats[50], descricao[150];
+    Texture2D imagem_carta;
 };
 
 struct nos
 {
     carta carta;
     nos *proximo;
+    int status;
 };
 
 typedef struct
@@ -29,7 +31,7 @@ typedef struct
 
 typedef struct
 {
-    nos *topo;
+    nos topo;
 } lixeira;
 
 struct player
@@ -40,12 +42,12 @@ struct player
 
 // DEFINICAO DAS CARTAS
 
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, card_operation, turns_count, name, stats, description
+// id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, card_operation, turns_count, name, stats, description
 
 // dano
 extern carta machado_assis;
 
-extern carta myke;
+extern carta mike;
 
 // cura
 extern carta lágrimas;
@@ -81,7 +83,5 @@ extern _Bool turno;
 extern player jogador1;
 
 extern player jogador2;
-
-
 
 #endif

@@ -8,11 +8,13 @@ int main()
 {
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
+    lixeira *lixeira = calloc(1,sizeof(lixeira));
 
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
     Texture2D background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
     Texture2D logo = LoadTexture("assets/exugames.png");
+    carregar_imagens_cartas();
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -32,7 +34,7 @@ int main()
         {
             DrawTextureEx(background, posicao, 0, 0.7646f, RAYWHITE);
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
-            if (turno == 0)
+            if (turno == 0 && jogador1.energia != 0)
             {
                 barra_de_status(&jogador1);
                 ClearBackground(RAYWHITE);
@@ -40,9 +42,12 @@ int main()
             }
             else
             {
-                barra_de_status(&jogador2);
-                ClearBackground(RAYWHITE);
-                turno = 0;
+                if (turno == 1 && jogador1.energia != 0)
+                {
+                    barra_de_status(&jogador2);
+                    ClearBackground(RAYWHITE);
+                    turno = 0;
+                }
             }
         }
         ClearBackground(BLACK);

@@ -33,14 +33,16 @@ void barra_de_status(player *jogador)
     return;
 }
 
-void gerar_cartas_p1(nos no, fila fila){
+void gerar_cartas_p1(nos no, fila fila)
+{
     int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
 
     int contador[10] = {0}; // conta quantas vezes cada carta já apareceu
     int fila_cartas_p1[10]; // fila dos IDs das cartas do player 1
 
     srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++)
+    {
         do
         {
             fila_cartas_p1[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
@@ -49,7 +51,8 @@ void gerar_cartas_p1(nos no, fila fila){
     }
 }
 
-void gerar_cartas_p2(nos *no, fila *fila){
+void gerar_cartas_p2(nos *no, fila *fila)
+{
 
     int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
 
@@ -57,7 +60,8 @@ void gerar_cartas_p2(nos *no, fila *fila){
     int fila_cartas_p2[10]; // fila dos IDs das cartas do player 2
 
     srand(time(NULL)); // define seed pro sorteador
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++)
+    {
         do
         {
             fila_cartas_p2[i] = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
@@ -69,12 +73,15 @@ void gerar_cartas_p2(nos *no, fila *fila){
 // OPERAÇÕES DAS CARTAS
 
 int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
-{   
+{
     player *jogador_afetado;
 
-    if(turno == 0){ // levando em consideração que o turno = 0 pertence ao jogador 1
+    if (turno == 0)
+    { // levando em consideração que o turno = 0 pertence ao jogador 1
         jogador_afetado = jogador2;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador1;
     }
 
@@ -88,9 +95,12 @@ int Fmike(carta *ptr, player *jogador1, player *jogador2)
 {
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador2;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador1;
     }
 
@@ -100,12 +110,16 @@ int Fmike(carta *ptr, player *jogador1, player *jogador2)
     return 0;
 }
 
-int Flágrimas(carta *ptr, player *jogador1, player *jogador2){
+int Flágrimas(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
     }
 
@@ -115,12 +129,16 @@ int Flágrimas(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-int Fescudo(carta *ptr, player *jogador1, player *jogador2){
+int Fescudo(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
     }
 
@@ -130,12 +148,16 @@ int Fescudo(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-int Faura(carta *ptr, player *jogador1, player *jogador2){
+int Faura(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
     }
 
@@ -146,33 +168,41 @@ int Faura(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2){
+int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
         jogador_afetado->dmg_buff += 15;
 
         jogador_afetado = jogador2;
         jogador_afetado->dmg_buff += 10;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
         jogador_afetado->dmg_buff += 15;
 
         jogador_afetado = jogador1;
-        jogador_afetado->dmg_buff += 10; 
+        jogador_afetado->dmg_buff += 10;
     }
 
     ptr->turns_cont--;
     return 0;
 }
 
-int Fespinafre(carta *ptr, player *jogador1, player *jogador2){
+int Fespinafre(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
     }
 
@@ -182,12 +212,16 @@ int Fespinafre(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-int Fbenção(carta *ptr, player *jogador1, player *jogador2){
+int Fbenção(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador1;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador2;
     }
 
@@ -197,12 +231,16 @@ int Fbenção(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-int Fbeijo(carta *ptr, player *jogador1, player *jogador2){
+int Fbeijo(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador2;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador1;
     }
 
@@ -212,13 +250,16 @@ int Fbeijo(carta *ptr, player *jogador1, player *jogador2){
     return 0;
 }
 
-
-int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2){
+int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2)
+{
     player *jogador_afetado;
 
-    if(turno == 0){
+    if (turno == 0)
+    {
         jogador_afetado = jogador2;
-    } else { 
+    }
+    else
+    {
         jogador_afetado = jogador1;
     }
 
@@ -226,4 +267,27 @@ int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2){
     ptr->turns_cont--;
 
     return 0;
+}
+
+void carregar_imagens_cartas(void)
+{
+    //coloca todos os sprites das cartas na struct de cada uma 
+    machado_assis.imagem_carta = LoadTexture("assets/machadoDeAssis.png");
+    aura.imagem_carta = LoadTexture("assets/aura.png");
+    mike.imagem_carta = LoadTexture("assets/MikeTyson.png");
+    lágrimas.imagem_carta = LoadTexture("assets/lagrimaDaSanta.png");
+    escudo.imagem_carta = LoadTexture("assets/escudo.png");
+    marca_besta.imagem_carta = LoadTexture("assets/marcaDaBesta.png");
+    marca_morte.imagem_carta = LoadTexture("assets/marcaDaMorte.png");
+    espinafre.imagem_carta = LoadTexture("assets/espinafre.png");
+    beijo.imagem_carta = LoadTexture("assets/beijo-removebg-preview.png");
+    benção.imagem_carta = LoadTexture("assets/bencao.png");
+}
+void visor_lixeiera(nos **lixeira){
+    if((*lixeira)->status == 0){
+
+        return;
+    }
+    
+    
 }
