@@ -17,13 +17,14 @@ struct carta
 
 struct nos
 {
+    int id;
     carta carta;
     nos *proximo;
 };
 
 typedef struct
 {
-    nos *primerio;
+    nos *primeiro;
     nos *ultimo;
 } fila;
 
