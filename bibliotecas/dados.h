@@ -3,14 +3,17 @@
 #define VARIAVEIS_H
 
 // ESTRUTURAS DE DADOS
-
 typedef struct nos nos; // compilador precisa saber que existira uma struct chamada fila, para que eu consiga inicializar uma variavel do tipo fila dentro da propria estrutura fila
 
-typedef struct
+typedef struct carta carta;
+typedef struct player player;
+
+struct carta
 {
-    int ID, energia, dano, cura, escudo, dmg_buff_ally, heal_buff_ally, dmg_buff_enemy, heal_buff_enemy;
+    int ID, energia, dano, cura, escudo, dmg_buff_ally, heal_buff_ally, dmg_buff_enemy, heal_buff_enemy, turns_cont;
+    int (*card_operation)(carta *ptr, player *jogador1, player *jogador2); // ponteiro para uma função que retorna um int e utiliza ponteiros para struct carta e player como parâmetros;
     char nome[30], stats[50], descricao[150];
-} carta;
+};
 
 struct nos
 {
@@ -29,32 +32,35 @@ typedef struct
     nos *topo;
 } lixeira;
 
-typedef struct
+struct player
 {
     int id_player, vida_atual, escudo, dmg_buff, heal_buff, energia;
     carta mao;
-} player;
+};
 
 // DEFINICAO DAS CARTAS
 
-//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, name, stats, description
+//id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, card_operation, turns_count, name, stats, description
 
 // dano
 extern carta machado_assis;
 
 extern carta myke;
+
 // cura
 extern carta lágrimas;
 
 extern carta escudo;
 
 extern carta aura;
+
 // buff
 extern carta marca_besta;
 
 extern carta espinafre;
 
 extern carta benção;
+
 // debuff
 extern carta beijo;
 
@@ -70,7 +76,7 @@ extern char texto_energia[3];
 
 extern char texto_escudo[3];
 
-extern int turno;
+extern _Bool turno;
 
 extern player jogador1;
 

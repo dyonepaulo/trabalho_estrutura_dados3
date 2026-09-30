@@ -65,3 +65,165 @@ void gerar_cartas_p2(nos *no, fila *fila){
         contador[fila_cartas_p2[i]]++; // conta quantas vezes o ID apareceu
     }
 }
+
+// OPERAÇÕES DAS CARTAS
+
+int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
+{   
+    player *jogador_afetado;
+
+    if(turno == 0){ // levando em consideração que o turno = 0 pertence ao jogador 1
+        jogador_afetado = jogador2;
+    } else { 
+        jogador_afetado = jogador1;
+    }
+
+    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Fmike(carta *ptr, player *jogador1, player *jogador2)
+{
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador2;
+    } else { 
+        jogador_afetado = jogador1;
+    }
+
+    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Flágrimas(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+    } else { 
+        jogador_afetado = jogador2;
+    }
+
+    jogador_afetado->vida_atual += ptr->cura + jogador_afetado->heal_buff;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Fescudo(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+    } else { 
+        jogador_afetado = jogador2;
+    }
+
+    jogador_afetado->escudo += ptr->escudo;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Faura(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+    } else { 
+        jogador_afetado = jogador2;
+    }
+
+    jogador_afetado->vida_atual += ptr->cura + jogador_afetado->heal_buff;
+    jogador_afetado->escudo += ptr->escudo;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+        jogador_afetado->dmg_buff += 15;
+
+        jogador_afetado = jogador2;
+        jogador_afetado->dmg_buff += 10;
+    } else { 
+        jogador_afetado = jogador2;
+        jogador_afetado->dmg_buff += 15;
+
+        jogador_afetado = jogador1;
+        jogador_afetado->dmg_buff += 10; 
+    }
+
+    ptr->turns_cont--;
+    return 0;
+}
+
+int Fespinafre(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+    } else { 
+        jogador_afetado = jogador2;
+    }
+
+    jogador_afetado->dmg_buff += 10;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Fbenção(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador1;
+    } else { 
+        jogador_afetado = jogador2;
+    }
+
+    jogador_afetado->heal_buff += 3;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+int Fbeijo(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador2;
+    } else { 
+        jogador_afetado = jogador1;
+    }
+
+    jogador_afetado->dmg_buff -= 10;
+    ptr->turns_cont--;
+
+    return 0;
+}
+
+
+int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2){
+    player *jogador_afetado;
+
+    if(turno == 0){
+        jogador_afetado = jogador2;
+    } else { 
+        jogador_afetado = jogador1;
+    }
+
+    jogador_afetado->heal_buff -= 4;
+    ptr->turns_cont--;
+
+    return 0;
+}
