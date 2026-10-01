@@ -4,7 +4,6 @@
 
 void barra_de_status(player *jogador);
 
-
 int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2);
 
 int Fmike(carta *ptr, player *jogador1, player *jogador2);
@@ -25,9 +24,13 @@ int Fbeijo(carta *ptr, player *jogador1, player *jogador2);
 
 int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2);
 
-void carregar_imagens_cartas(void);
+void carregar_assets(void);
 
 void visor_lixeiera(nos **lixeira);
+
+int visor_mao(mao *mao_jogador);
+
+
 
 
 #endif

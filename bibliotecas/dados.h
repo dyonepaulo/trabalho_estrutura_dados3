@@ -41,6 +41,11 @@ struct player
     carta mao;
 };
 
+typedef struct
+{
+    nos carta_selecionada;
+} mao;
+
 // DEFINICAO DAS CARTAS
 
 // id, energy, dmg, heal, shield, DB_ally, HB_ally, DB_enemy, HB_enemy, card_operation, turns_count, name, stats, description
@@ -84,5 +89,9 @@ extern _Bool turno;
 extern player jogador1;
 
 extern player jogador2;
+
+extern Font fonte;
+
+extern Texture2D icon_mao;
 
 #endif

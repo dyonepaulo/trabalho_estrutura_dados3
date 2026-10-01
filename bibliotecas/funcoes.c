@@ -301,7 +301,7 @@ int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2)
     return 0;
 }
 
-void carregar_imagens_cartas(void)
+void carregar_assets(void)
 {
     // coloca todos os sprites das cartas na struct de cada uma
     machado_assis.imagem_carta = LoadTexture("assets/machadoDeAssis.png");
@@ -314,6 +314,8 @@ void carregar_imagens_cartas(void)
     espinafre.imagem_carta = LoadTexture("assets/espinafre.png");
     beijo.imagem_carta = LoadTexture("assets/beijo-removebg-preview.png");
     benção.imagem_carta = LoadTexture("assets/bencao.png");
+    icon_mao = LoadTexture("assets/mao.png");
+    fonte = LoadFont("assets/fonte/PressStart2P-Regular.ttf");
 }
 void visor_lixeiera(nos **lixeira) // ta imcompleto
 {
@@ -321,16 +323,41 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
     if ((*lixeira)->status == 0)
     {
         DrawRectangle(10, 400, 220, 310, GRAY);
-        DrawText("LIXEIRA VAZIA", 40, 550, 20, BLACK);
+        DrawTextEx(fonte,"LIXEIRA VAZIA", (Vector2){40, 550}, 20,1, BLACK);
         return;
     }
     else
     {
-        if ((*lixeira)->carta.dano > 0)
-        {
-            DrawRectangle(10, 370, 220, 330, GRAY);
-            DrawTextureEx((*lixeira)->carta.imagem_carta, (Vector2){-50, 375}, 0, .7, RAYWHITE);
-            DrawText(texto, 40,380, 20, BLACK);
-        }
+        DrawRectangle(10, 370, 200, 300, GRAY);
+
+        DrawTextureEx(
+            (*lixeira)->carta.imagem_carta,
+            (Vector2){-35, 378},
+            0,
+            0.6f,
+            RAYWHITE);
+
+        DrawTextEx(fonte,
+            "ULTIMA CARTA\n DA LIXEIRA",
+            (Vector2){25, 374},
+            13,
+            1,
+            BLACK);
+    }
+}
+int visor_mao(mao *mao)
+{
+    if (mao->carta_selecionada.status == 0)
+    {
+        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
+        return 0;
+    }
+    else
+    {
+        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
+        DrawTextureEx(mao->carta_selecionada.carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
+        DrawRectangle(300, 650, 710, 48, Fade(BLACK, 0.6f));
+        DrawTextEx(fonte, mao->carta_selecionada.carta.stats, (Vector2){310, 678}, 15, 0.5, WHITE);
+        DrawTextEx(fonte,"Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
     }
 }

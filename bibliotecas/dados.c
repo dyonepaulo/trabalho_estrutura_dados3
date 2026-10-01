@@ -18,7 +18,7 @@ carta marca_besta = {6, 1, 0, 0, 0, 15, 0, 10, 0, 1, .card_operation = Fmarca_be
 
 carta espinafre = {7, 1, 0, 0, 0, 10, 0, 0, 0, 1, .card_operation = Fespinafre, "leite de boi", "aumenta o dano em 10", "deixa o caba mais forte"};
 
-carta benção = {8, 1, 0, 0, 0, 0, 3, 0, 0, 1, .card_operation = Fbenção, "Benção da desgraça", "aumenta a eficiencia de cartas de cura em 3", "\"You feel blessed\""};
+carta benção = {8, 1, 0, 0, 0, 0, 3, 0, 0, 1, .card_operation = Fbenção, "Benção", "aumenta a eficiencia de cartas de cura em 3", "\"You feel blessed\""};
 // debuff
 carta beijo = {9, 1, 0, 0, 0, 0, 0, 10, 0, 1, .card_operation = Fbeijo, "Beijo de judas", "diminui o dano do seu inimigo em 10", "Um símbolo de traição e a venda de seus companheiros."};
 
@@ -39,3 +39,7 @@ _Bool turno = 0;
 player jogador1 = {1, 100, 20, 0, 0, 2};
 
 player jogador2 = {1, 50, 20, 0, 0, 2};
+
+Texture2D icon_mao;
+
+Font fonte;
