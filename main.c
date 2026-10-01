@@ -12,14 +12,15 @@ int main()
 
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
-    Texture2D background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
-    Texture2D logo = LoadTexture("assets/exugames.png");
     carregar_assets();
 
     // teste
     mao *mao_jogador1 = calloc(1, sizeof(mao));
-    mao_jogador1->carta_selecionada.carta = marca_besta;
+    mao_jogador1->carta_selecionada.carta = aura;
     mao_jogador1->carta_selecionada.status = 1;
+    mao *mao_jogador2 = calloc(1, sizeof(mao));
+    mao_jogador2->carta_selecionada.status = 1;
+    mao_jogador2->carta_selecionada.carta = aura;
     lixeira->carta = marca_besta;
     lixeira->status = 1;
     // fimTeste
@@ -49,6 +50,7 @@ int main()
                 barra_de_status(&jogador1);
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
+                sprite_inimigo(0);
                 ClearBackground(RAYWHITE);
                 if (jogador1.energia == 0)
                 {
@@ -60,6 +62,10 @@ int main()
                 if (turno == 1)
                 {
                     barra_de_status(&jogador2);
+                    sprite_inimigo(1);
+                    visor_lixeiera(&lixeira);
+                    visor_mao(mao_jogador2);
+                    sprite_inimigo(1);
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {

@@ -94,4 +94,12 @@ extern Font fonte;
 
 extern Texture2D icon_mao;
 
+extern Texture2D sprite_jogador1;
+
+extern Texture2D sprite_jogador2;
+
+extern Texture2D background;
+
+extern Texture2D logo;
+
 #endif

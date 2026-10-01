@@ -316,6 +316,11 @@ void carregar_assets(void)
     benção.imagem_carta = LoadTexture("assets/bencao.png");
     icon_mao = LoadTexture("assets/mao.png");
     fonte = LoadFont("assets/fonte/PressStart2P-Regular.ttf");
+    sprite_jogador1 = LoadTexture("assets/TungTungSahurCeslestialProMax.png");
+    sprite_jogador2 = LoadTexture("assets/ZePilintra.png");
+    background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
+    logo = LoadTexture("assets/exugames.png");
+    return;
 }
 void visor_lixeiera(nos **lixeira) // ta imcompleto
 {
@@ -323,7 +328,7 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
     if ((*lixeira)->status == 0)
     {
         DrawRectangle(10, 400, 220, 310, GRAY);
-        DrawTextEx(fonte,"LIXEIRA VAZIA", (Vector2){40, 550}, 20,1, BLACK);
+        DrawTextEx(fonte, "LIXEIRA VAZIA", (Vector2){40, 550}, 20, 1, BLACK);
         return;
     }
     else
@@ -338,19 +343,20 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
             RAYWHITE);
 
         DrawTextEx(fonte,
-            "ULTIMA CARTA\n DA LIXEIRA",
-            (Vector2){25, 374},
-            13,
-            1,
-            BLACK);
+                   "ULTIMA CARTA\n DA LIXEIRA",
+                   (Vector2){25, 374},
+                   13,
+                   1,
+                   BLACK);
     }
+    return;
 }
-int visor_mao(mao *mao)
+void visor_mao(mao *mao)
 {
     if (mao->carta_selecionada.status == 0)
     {
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
-        return 0;
+        return;
     }
     else
     {
@@ -358,6 +364,28 @@ int visor_mao(mao *mao)
         DrawTextureEx(mao->carta_selecionada.carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
         DrawRectangle(300, 650, 710, 48, Fade(BLACK, 0.6f));
         DrawTextEx(fonte, mao->carta_selecionada.carta.stats, (Vector2){310, 678}, 15, 0.5, WHITE);
-        DrawTextEx(fonte,"Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
+        DrawTextEx(fonte, "Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
+        return;
+    }
+}
+void sprite_inimigo(int id_jogador)
+{
+    if (id_jogador == 0)
+    {
+        DrawTextureEx(sprite_jogador1, (Vector2){500, 220}, 0, .3, RAYWHITE);
+        Rectangle retangulofundo_inimigo = {515, 200, 200, 20};
+        Rectangle retangulovisor_inimigo = {515, 200, jogador1.vida_atual*2, 20};
+        DrawRectangleRec(retangulofundo_inimigo, BLACK);
+        DrawRectangleRec(retangulovisor_inimigo, RED);
+        return;
+    }
+    else
+    {
+        DrawTextureEx(sprite_jogador2, (Vector2){500, 220}, 0, .25, RAYWHITE);
+        Rectangle retangulofundo_inimigo = {515, 200, 200, 20};
+        Rectangle retangulovisor_inimigo = {515, 200, jogador2.vida_atual*2, 20};
+        DrawRectangleRec(retangulofundo_inimigo, BLACK);
+        DrawRectangleRec(retangulovisor_inimigo, RED);
+        return;
     }
 }

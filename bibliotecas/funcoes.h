@@ -28,7 +28,9 @@ void carregar_assets(void);
 
 void visor_lixeiera(nos **lixeira);
 
-int visor_mao(mao *mao_jogador);
+void visor_mao(mao *mao_jogador);
+
+void sprite_inimigo(int id_jogador);
 
 
 
