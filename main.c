@@ -4,6 +4,7 @@
 #include "bibliotecas/dados.h"
 #include "bibliotecas/funcoes.h"
 #include <stdio.h>
+
 int main()
 {
     Rectangle botao_menu = {520, 499, 240, 100};

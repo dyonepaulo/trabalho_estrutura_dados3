@@ -98,31 +98,24 @@ void gerar_cartas_p2(fila *fila){
 
 int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
 {   
-    player *jogador_afetado;
+    if (turno == 0) // levando em consideração que o turno = 0 pertence ao jogador 1
+        jogador2->vida_atual -= ptr->dano + jogador1->dmg_buff;
+    else
+        jogador1->vida_atual -= ptr->dano + jogador2->dmg_buff;
+     
 
-    if(turno == 0){ // levando em consideração que o turno = 0 pertence ao jogador 1
-        jogador_afetado = jogador2;
-    } else { 
-        jogador_afetado = jogador1;
-    }
-
-    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
     ptr->turns_cont--;
-
     return 0;
 }
 
 int Fmike(carta *ptr, player *jogador1, player *jogador2)
 {
-    player *jogador_afetado;
+    if(turno == 0)
+        jogador2->vida_atual -= ptr->dano + jogador1->dmg_buff;
+    else
+        jogador1->vida_atual -= ptr->dano + jogador2->dmg_buff;
 
-    if(turno == 0){
-        jogador_afetado = jogador2;
-    } else { 
-        jogador_afetado = jogador1;
-    }
-
-    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
+    
     ptr->turns_cont--;
 
     return 0;
@@ -131,11 +124,11 @@ int Fmike(carta *ptr, player *jogador1, player *jogador2)
 int Flágrimas(carta *ptr, player *jogador1, player *jogador2){
     player *jogador_afetado;
 
-    if(turno == 0){
+    if(turno == 0)
         jogador_afetado = jogador1;
-    } else { 
+    else
         jogador_afetado = jogador2;
-    }
+    
 
     jogador_afetado->vida_atual += ptr->cura + jogador_afetado->heal_buff;
     ptr->turns_cont--;
@@ -198,11 +191,11 @@ int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2){
 int Fespinafre(carta *ptr, player *jogador1, player *jogador2){
     player *jogador_afetado;
 
-    if(turno == 0){
+    if(turno == 0)
         jogador_afetado = jogador1;
-    } else { 
+    else  
         jogador_afetado = jogador2;
-    }
+    
 
     jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
     ptr->turns_cont--;
@@ -234,7 +227,7 @@ int Fbeijo(carta *ptr, player *jogador1, player *jogador2){
         jogador_afetado = jogador1;
     }
 
-    jogador_afetado->dmg_buff -= ptr->dmg_buff_ally;
+    jogador_afetado->dmg_buff -= ptr->dmg_buff_enemy;
     ptr->turns_cont--;
 
     return 0;
