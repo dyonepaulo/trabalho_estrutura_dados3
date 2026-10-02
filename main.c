@@ -16,11 +16,11 @@ int main()
 
     // teste
     mao *mao_jogador1 = calloc(1, sizeof(mao));
-    mao_jogador1->carta_selecionada.carta = aura;
-    mao_jogador1->carta_selecionada.status = 1;
+    mao_jogador1->carta_selecionada->carta = aura;
+    mao_jogador1->carta_selecionada->status = 1;
     mao *mao_jogador2 = calloc(1, sizeof(mao));
-    mao_jogador2->carta_selecionada.status = 1;
-    mao_jogador2->carta_selecionada.carta = aura;
+    mao_jogador2->carta_selecionada->status = 1;
+    mao_jogador2->carta_selecionada->carta = aura;
     lixeira->carta = marca_besta;
     lixeira->status = 1;
     // fimTeste
@@ -28,6 +28,7 @@ int main()
     while (!WindowShouldClose())
     {
         BeginDrawing();
+        ClearBackground(BLACK);
         ClearBackground(BLACK);
         if (tela_menu == 0)
         {

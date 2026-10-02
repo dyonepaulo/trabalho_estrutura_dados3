@@ -7,11 +7,12 @@ typedef struct nos nos; // compilador precisa saber que existira uma struct cham
 
 typedef struct carta carta;
 typedef struct player player;
+typedef struct mao mao;
 
 struct carta
 {
     int ID, energia, dano, cura, escudo, dmg_buff_ally, heal_buff_ally, dmg_buff_enemy, heal_buff_enemy, turns_cont;
-    int (*card_operation)(carta *ptr, player *jogador1, player *jogador2); // ponteiro para uma função que retorna um int e utiliza ponteiros para struct carta e player como parâmetros;
+    int (*card_operation)(carta carta, player *jogador1, player *jogador2); // ponteiro para uma função que retorna um int e utiliza ponteiros para struct carta e player como parâmetros;
     char nome[30], stats[50], descricao[150];
     Texture2D imagem_carta;
 };
@@ -32,19 +33,20 @@ typedef struct
 
 typedef struct
 {
-    nos topo;
+    nos *topo;
 } lixeira;
+
+struct mao
+{
+    nos *carta_selecionada;
+};
 
 struct player
 {
     int id_player, vida_atual, escudo, dmg_buff, heal_buff, energia;
-    carta mao;
+    mao mao_player;
+    fila fila_player;
 };
-
-typedef struct
-{
-    nos carta_selecionada;
-} mao;
 
 // DEFINICAO DAS CARTAS
 

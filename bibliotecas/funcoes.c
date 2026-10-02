@@ -56,30 +56,7 @@ void inserirNode(fila *fila)
     }
 }
 
-void gerar_cartas_p1(fila *fila)
-{
-    for (int i = 0; i < 10; i++)
-        inserirNode(fila);
-
-    nos *current = fila->primeiro;
-    int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
-
-    srand(time(NULL)); // define seed pro sorteador
-
-    while (current)
-    { // condição de saída do loop: somente quando current == NULL
-        do
-        {
-            current->id = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
-        } while (contador[current->id - 1] >= limite[current->id - 1]); // verifica quantas vezes o ID foi gerado
-        contador[current->id - 1]++; // conta quantas vezes o ID apareceu
-
-        current = current->proximo;
-    }
-}
-
-void gerar_cartas_p2(fila *fila)
+void gerar_cartas(fila *fila)
 {
     for (int i = 0; i < 10; i++)
         inserirNode(fila);
@@ -104,7 +81,7 @@ void gerar_cartas_p2(fila *fila)
 
 // OPERAÇÕES DAS CARTAS
 
-int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
+int Fmachado_assis(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado, *jogador_caster;
 
@@ -119,34 +96,60 @@ int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
         jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= ptr->dano + jogador_caster->dmg_buff;
-    ptr->turns_cont--;
+    jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
+    card.turns_cont--;
 
     return 0;
 }
 
-int Fmike(carta *ptr, player *jogador1, player *jogador2)
+int Fmike(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado, *jogador_caster;
 
-    if (turno == 0)
-    {
+    if(turno == 0){
         jogador_afetado = jogador2;
-        jogador_caster = jogador1;
-    }
-    else
-    {
+    } else { 
         jogador_afetado = jogador1;
-        jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= ptr->dano + jogador_caster->dmg_buff;
-    ptr->turns_cont--;
+    jogador_afetado->vida_atual -= card.dano + jogador_afetado->dmg_buff;
 
     return 0;
 }
 
-int Flágrimas(carta *ptr, player *jogador1, player *jogador2)
+int Flágrimas(carta card, player *jogador1, player *jogador2)
+{
+    player *jogador_afetado;
+
+    if(turno == 0)
+        jogador_afetado = jogador1;
+    else
+        jogador_afetado = jogador2;
+    
+
+    jogador_afetado->vida_atual += card.cura + jogador_afetado->heal_buff;
+
+    
+    return 0;
+}
+
+int Fescudo(carta card, player *jogador1, player *jogador2)
+{
+    player *jogador_afetado;
+
+    if(turno == 0)
+        jogador_afetado = jogador1;
+    else
+        jogador_afetado = jogador2;
+    
+
+    jogador_afetado->escudo += card.escudo;
+     
+
+    return 0;
+}
+
+int Faura(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado;
 
@@ -159,13 +162,53 @@ int Flágrimas(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador2;
     }
 
-    jogador_afetado->vida_atual += ptr->cura + jogador_afetado->heal_buff;
-    ptr->turns_cont--;
+    jogador_afetado->vida_atual += card.cura + jogador_afetado->heal_buff;
+    jogador_afetado->escudo += card.escudo;
+     
 
     return 0;
 }
 
-int Fescudo(carta *ptr, player *jogador1, player *jogador2)
+int Fmarca_besta(carta card, player *jogador1, player *jogador2)
+{
+    player *jogador_afetado;
+
+    if (turno == 0)
+    {
+        jogador_afetado = jogador1;
+        jogador_afetado->dmg_buff += card.dmg_buff_ally;
+
+        jogador_afetado = jogador2;
+        jogador_afetado->dmg_buff += card.dmg_buff_enemy;
+    }
+    else
+    {
+        jogador_afetado = jogador2;
+        jogador_afetado->dmg_buff += card.dmg_buff_ally;
+
+        jogador_afetado = jogador1;
+        jogador_afetado->dmg_buff += card.dmg_buff_enemy;
+    }
+     
+    return 0;
+}
+
+int Fespinafre(carta card, player *jogador1, player *jogador2)
+{
+    player *jogador_afetado;
+
+    if(turno == 0)
+        jogador_afetado = jogador1;
+    else  
+        jogador_afetado = jogador2;
+    
+
+    jogador_afetado->dmg_buff += card.dmg_buff_ally;
+     
+    return 0;
+}
+
+int Fbenção(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado;
 
@@ -178,130 +221,107 @@ int Fescudo(carta *ptr, player *jogador1, player *jogador2)
         jogador_afetado = jogador2;
     }
 
-    jogador_afetado->escudo += ptr->escudo;
-    ptr->turns_cont--;
-
+    jogador_afetado->heal_buff += card.heal_buff_ally;
+     
     return 0;
 }
 
-int Faura(carta *ptr, player *jogador1, player *jogador2)
+int Fbeijo(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado;
 
     if (turno == 0)
-    {
-        jogador_afetado = jogador1;
-    }
-    else
-    {
         jogador_afetado = jogador2;
-    }
+    else
+        jogador_afetado = jogador1;
 
-    jogador_afetado->vida_atual += ptr->cura + jogador_afetado->heal_buff;
-    jogador_afetado->escudo += ptr->escudo;
-    ptr->turns_cont--;
+    jogador_afetado->dmg_buff -= card.dmg_buff_enemy;
+     
 
     return 0;
 }
 
-int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2)
+int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 {
     player *jogador_afetado;
 
     if (turno == 0)
-    {
-        jogador_afetado = jogador1;
-        jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
-
         jogador_afetado = jogador2;
-        jogador_afetado->dmg_buff += ptr->dmg_buff_enemy;
-    }
     else
-    {
-        jogador_afetado = jogador2;
-        jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
-
         jogador_afetado = jogador1;
-        jogador_afetado->dmg_buff += ptr->dmg_buff_enemy;
-    }
+    
 
-    ptr->turns_cont--;
-    return 0;
-}
-
-int Fespinafre(carta *ptr, player *jogador1, player *jogador2)
-{
-    player *jogador_afetado;
-
-    if (turno == 0)
-    {
-        jogador_afetado = jogador1;
-    }
-    else
-    {
-        jogador_afetado = jogador2;
-    }
-
-    jogador_afetado->dmg_buff += ptr->dmg_buff_ally;
-    ptr->turns_cont--;
+    jogador_afetado->heal_buff -= card.heal_buff_enemy;
+     
 
     return 0;
 }
 
-int Fbenção(carta *ptr, player *jogador1, player *jogador2)
-{
-    player *jogador_afetado;
+// OPERAÇÕES DO JOGADOR
 
-    if (turno == 0)
+int jogar_carta(fila *fila, mao *hand, player *jogador){
+    if (hand == NULL)
     {
-        jogador_afetado = jogador1;
-    }
-    else
-    {
-        jogador_afetado = jogador2;
+        // aviso centralizado dizendo que a hand não tem cartas
+        return 1;
     }
 
-    jogador_afetado->heal_buff += ptr->heal_buff_ally;
-    ptr->turns_cont--;
+    int retorno_função = hand->carta_selecionada->carta.card_operation((hand->carta_selecionada->carta), &jogador1, &jogador2);
+    free(hand->carta_selecionada);
 
+    if (fila->primeiro == NULL)
+    {
+        /*pequeno aviso de que a fila foi esvaziada*/
+    } 
+    return 0; 
+    
+    // avançando a fila...
+    nos *temp = fila->primeiro;
+    fila->primeiro = fila->primeiro->proximo;
+    hand->carta_selecionada = temp;
+
+    jogador->energia--;
     return 0;
 }
 
-int Fbeijo(carta *ptr, player *jogador1, player *jogador2)
-{
-    player *jogador_afetado;
-
-    if (turno == 0)
-    {
-        jogador_afetado = jogador2;
+int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador){
+    if (pilha->topo == NULL) {                                            // checa se a pilha é pilha vazia
+        pilha->topo = hand->carta_selecionada;
+        pilha->topo->proximo = NULL; 
+    } else {
+        hand->carta_selecionada->proximo = pilha->topo; // o novo node vindo da mão aponta para o topo da pilha
+        pilha->topo = hand->carta_selecionada; // o novo node se torna o topo da pilha
     }
-    else
-    {
-        jogador_afetado = jogador1;
-    }
+    
+    // avançando a fila...
+    nos *temp = fila->primeiro;
+    fila->primeiro = fila->primeiro->proximo;
+    hand->carta_selecionada = temp;
 
-    jogador_afetado->dmg_buff -= ptr->dmg_buff_ally;
-    ptr->turns_cont--;
-
+    jogador->energia--;
     return 0;
 }
 
-int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2)
-{
-    player *jogador_afetado;
-
-    if (turno == 0)
+int colher_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador){
+    if (pilha->topo == NULL)
     {
-        jogador_afetado = jogador2;
-    }
-    else
-    {
-        jogador_afetado = jogador1;
+        /* aviso dizendo que não tem pilha disponível */
+        return 0;
     }
 
-    jogador_afetado->heal_buff -= ptr->heal_buff_enemy;
-    ptr->turns_cont--;
+    fila->ultimo->proximo = pilha->topo; // o último node da fila aponta para o topo da pilha
+    fila->ultimo = fila->ultimo->proximo; // o final da fila é atualizado
+    pilha->topo = pilha->topo->proximo; // topo da pilha é atualizado
 
+    jogador->energia--;
+    return 0;
+}
+
+int guardar_carta(fila *fila, mao *hand, player *jogador){
+    fila->ultimo->proximo = hand->carta_selecionada; // a carta é passada da mão para o final da fila
+    fila->ultimo = hand->carta_selecionada;
+
+    jogador->energia -= 2;
     return 0;
 }
 
@@ -358,7 +378,7 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
 }
 void visor_mao(mao *mao)
 {
-    if (mao->carta_selecionada.status == 0)
+    if (mao->carta_selecionada->status == 0)
     {
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
         return;
@@ -366,9 +386,9 @@ void visor_mao(mao *mao)
     else
     {
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
-        DrawTextureEx(mao->carta_selecionada.carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
+        DrawTextureEx(mao->carta_selecionada->carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
         DrawRectangle(300, 650, 710, 48, Fade(BLACK, 0.6f));
-        DrawTextEx(fonte, mao->carta_selecionada.carta.stats, (Vector2){310, 678}, 15, 0.5, WHITE);
+        DrawTextEx(fonte, mao->carta_selecionada->carta.stats, (Vector2){310, 678}, 15, 0.5, WHITE);
         DrawTextEx(fonte, "Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
         return;
     }
