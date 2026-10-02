@@ -32,7 +32,7 @@ void visor_mao(mao *mao_jogador);
 
 void sprite_inimigo(int id_jogador);
 
-void carregar_assets(void);
+void carregar_assets(void); //duplicado?
 
 void visor_lixeiera(nos **lixeira);
 
@@ -49,6 +49,18 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
 void teste(void);
 
 void mensagem_erro_lixeira(void);
+
+void gerar_cartas(fila *fila);
+
+void inserirNode(fila *fila);
+
+int jogar_carta(fila *fila, mao *hand, player *jogador);
+
+void descarte_carta(mao *hand, lixeira *pilha, player *jogador);
+
+int colher_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador);
+
+int guardar_carta(fila *fila, mao *hand, player *jogador);
 
 
 

@@ -12,6 +12,7 @@ int main()
     char opcao;
     nos *lixeira = calloc(1, sizeof(nos));
 
+    srand(time(NULL)); // define seed pro sorteador
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
     carregar_assets();
@@ -31,6 +32,16 @@ int main()
     lixeira->carta = marca_besta;
     lixeira->status = 0;
     // fimTeste
+
+    fila *fila_jogador1 = calloc(1, sizeof(fila));
+    fila *fila_jogador2 = calloc(1, sizeof(fila));
+    if(fila_jogador1 == NULL || fila_jogador2 == NULL){
+        printf("Falha na alocação de memória. ");
+        exit(1);
+    }
+
+    gerar_cartas(fila_jogador1);
+    gerar_cartas(fila_jogador2);
 
     while (!WindowShouldClose())
     {
@@ -54,11 +65,10 @@ int main()
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
             {
-                
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
                 sprite_inimigo(0);
-                proxima_carta(mao_jogador1, NULL); // falta concertar parametro
+                proxima_carta(mao_jogador1, fila_jogador1); //em teste
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
                 if (jogador1.energia == 0)

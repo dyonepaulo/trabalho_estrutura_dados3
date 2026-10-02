@@ -65,8 +65,6 @@ void gerar_cartas(fila *fila)
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
     int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
 
-    srand(time(NULL)); // define seed pro sorteador
-
     while (current)
     { // condição de saída do loop: somente quando current == NULL
         do
@@ -75,6 +73,48 @@ void gerar_cartas(fila *fila)
         } while (contador[current->id - 1] >= limite[current->id - 1]); // verifica quantas vezes o ID foi gerado
         contador[current->id - 1]++; // conta quantas vezes o ID apareceu
 
+        switch (current->id){
+            case 1:
+                current->carta = machado_assis;
+                break;
+
+            case 2:
+                current->carta = mike;
+                break;
+
+            case 3:
+                current->carta = lágrimas;
+                break;
+
+            case 4:
+                current->carta = escudo;
+                break;
+
+            case 5:
+                current->carta = aura;
+                break;
+
+            case 6:
+                current->carta = marca_besta;
+                break;
+
+            case 7:
+                current->carta = espinafre;
+                break;
+
+            case 8:
+                current->carta = benção;
+                break;
+
+            case 9:
+                current->carta = beijo;
+                break;
+
+            case 10:
+                current->carta = marca_morte;
+                break;
+
+        }
         current = current->proximo;
     }
 }
@@ -115,7 +155,7 @@ int Fmike(carta card, player *jogador1, player *jogador2)
         jogador_afetado = jogador1;
     }
 
-    jogador_afetado->vida_atual -= card.dano + jogador_afetado->dmg_buff;
+    jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
 
     return 0;
 }
@@ -439,17 +479,18 @@ void sprite_inimigo(int id_jogador)
 
 void proxima_carta(mao *mao, fila *fila)
 { // imcompletro
-    if (2 > 1)
+    if (2 < 1)
     {
         Rectangle fundo_fila_vazia = {1140, 60, 150, 190};
         DrawRectangleRounded(fundo_fila_vazia, 0.2f, 10, ColorAlpha(DARKGRAY, 0.7f));
         DrawTextEx(fonte, "Nenhuma \ncarta \nrestante!", (Vector2){1148, 130}, 15, 0, MAROON);
     }
-    // else
-    // {
-    //     DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1140, 110}, 0, 0.6f, RAYWHITE);
-    // }
+    else
+    {
+        DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1090, 50}, 0, .5, RAYWHITE);
+    }
 }
+
 void teste(void)
 {
 
