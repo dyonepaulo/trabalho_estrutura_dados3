@@ -29,6 +29,7 @@ typedef struct
 {
     nos *primeiro;
     nos *ultimo;
+    int tamanho;
 } fila;
 
 typedef struct

@@ -40,6 +40,11 @@ int main()
         exit(1);
     }
 
+    fila_jogador1->primeiro = NULL;
+    fila_jogador2->ultimo = NULL;
+    fila_jogador2->primeiro = NULL;
+    fila_jogador2->ultimo = NULL;
+
     gerar_cartas(fila_jogador1);
     gerar_cartas(fila_jogador2);
 

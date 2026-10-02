@@ -58,12 +58,12 @@ void inserirNode(fila *fila)
 
 void gerar_cartas(fila *fila)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 6; i++)
         inserirNode(fila);
 
     nos *current = fila->primeiro;
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
+    int contador[6] = {0};                        // conta quantas vezes cada carta já apareceu
 
     while (current)
     { // condição de saída do loop: somente quando current == NULL
@@ -72,6 +72,7 @@ void gerar_cartas(fila *fila)
             current->id = rand() % 10 + 1; // atribui um numero aleatorio q representa o id da carta sorteada a posição do vetor
         } while (contador[current->id - 1] >= limite[current->id - 1]); // verifica quantas vezes o ID foi gerado
         contador[current->id - 1]++; // conta quantas vezes o ID apareceu
+        fila->tamanho++;
 
         switch (current->id){
             case 1:
@@ -296,21 +297,14 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 int jogar_carta(fila *fila, mao *hand, player *jogador)
 {
     if (hand == NULL)
-    {
-        // aviso centralizado dizendo que a hand não tem cartas
-        return 1;
-    }
+        return 0;
 
     int retorno_função = hand->carta_selecionada->carta.card_operation((hand->carta_selecionada->carta), &jogador1, &jogador2);
     free(hand->carta_selecionada);
 
     if (fila->primeiro == NULL)
-    {
-        /*pequeno aviso de que a fila foi esvaziada*/
-    }
-    return 0;
+        return 0;
 
-    // avançando a fila...
     nos *temp = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
@@ -322,14 +316,14 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
 int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
 {
     if (pilha->topo == NULL)
-    { // checa se a pilha é pilha vazia
+    {
         pilha->topo = hand->carta_selecionada;
         pilha->topo->proximo = NULL;
     }
     else
     {
-        hand->carta_selecionada->proximo = pilha->topo; // o novo node vindo da mão aponta para o topo da pilha
-        pilha->topo = hand->carta_selecionada;          // o novo node se torna o topo da pilha
+        hand->carta_selecionada->proximo = pilha->topo; 
+        pilha->topo = hand->carta_selecionada;         
     }
 
     // avançando a fila...
@@ -341,26 +335,40 @@ int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
     return 0;
 }
 
-int colher_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
+int colher_carta(fila *fila, lixeira *pilha, player *jogador)
 {
     if (pilha->topo == NULL)
-    {
-        /* aviso dizendo que não tem pilha disponível */
         return 0;
+
+    nos *temp = pilha->topo;
+    if (fila->primeiro == NULL) {
+        fila->ultimo = temp;
+        fila->primeiro = temp;
+    } else {
+        fila->ultimo->proximo = temp;
+        fila->ultimo = temp;
     }
 
-    fila->ultimo->proximo = pilha->topo;  // o último node da fila aponta para o topo da pilha
-    fila->ultimo = fila->ultimo->proximo; // o final da fila é atualizado
-    pilha->topo = pilha->topo->proximo;   // topo da pilha é atualizado
-
+    temp->proximo = NULL;
     jogador->energia--;
     return 0;
 }
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    fila->ultimo->proximo = hand->carta_selecionada; // a carta é passada da mão para o final da fila
-    fila->ultimo = hand->carta_selecionada;
+    if (fila->primeiro == NULL){
+        fila->primeiro = hand->carta_selecionada;
+        fila->ultimo = hand->carta_selecionada;
+    } else {
+        fila->ultimo->proximo = hand->carta_selecionada;
+        fila->ultimo = hand->carta_selecionada;
+    }
+
+    fila->ultimo->proximo = NULL;
+
+    nos *temp = fila->primeiro;
+    fila->primeiro = fila->primeiro->proximo;
+    hand->carta_selecionada = temp;
 
     jogador->energia -= 2;
     return 0;
@@ -481,6 +489,9 @@ void sprite_inimigo(int id_jogador)
 
 void proxima_carta(mao *mao, fila *fila)
 { // imcompletro
+    nos *current;
+    int fix_index = 20;
+
     if (fila->primeiro == NULL)
     {
         Rectangle fundo_fila_vazia = {1140, 60, 150, 190};
@@ -491,7 +502,10 @@ void proxima_carta(mao *mao, fila *fila)
     {
         DrawRectangle(1140, 40, 150, 45, ColorAlpha(DARKGRAY, 0.7f));
         DrawTextEx(fonte, "Proxima\n carta", (Vector2){1150, 48}, 15, 0, MAROON);
-        DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1090, 70}, 0, .5, RAYWHITE);
+
+        for (int i=0 ; i < fila->tamanho ; i++, fix_index += 10)
+            DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1100 - fix_index, 70}, 0, .5, RAYWHITE);
+        
     }
 }
 
