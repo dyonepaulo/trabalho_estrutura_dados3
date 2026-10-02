@@ -4,25 +4,25 @@
 
 void barra_de_status(player *jogador);
 
-int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2);
+int Fmachado_assis(carta card, player *jogador1, player *jogador2);
 
-int Fmike(carta *ptr, player *jogador1, player *jogador2);
+int Fmike(carta card, player *jogador1, player *jogador2);
 
-int Flágrimas(carta *ptr, player *jogador1, player *jogador2);
+int Flágrimas(carta card, player *jogador1, player *jogador2);
 
-int Fescudo(carta *ptr, player *jogador1, player *jogador2);
+int Fescudo(carta card, player *jogador1, player *jogador2);
 
-int Faura(carta *ptr, player *jogador1, player *jogador2);
+int Faura(carta card, player *jogador1, player *jogador2);
 
-int Fmarca_besta(carta *ptr, player *jogador1, player *jogador2);
+int Fmarca_besta(carta card, player *jogador1, player *jogador2);
 
-int Fespinafre(carta *ptr, player *jogador1, player *jogador2);
+int Fespinafre(carta card, player *jogador1, player *jogador2);
 
-int Fbenção(carta *ptr, player *jogador1, player *jogador2);
+int Fbenção(carta card, player *jogador1, player *jogador2);
 
-int Fbeijo(carta *ptr, player *jogador1, player *jogador2);
+int Fbeijo(carta card, player *jogador1, player *jogador2);
 
-int Fmarca_morte(carta *ptr, player *jogador1, player *jogador2);
+int Fmarca_morte(carta card, player *jogador1, player *jogador2);
 
 void carregar_assets(void);
 
@@ -32,6 +32,23 @@ void visor_mao(mao *mao_jogador);
 
 void sprite_inimigo(int id_jogador);
 
+void carregar_assets(void);
+
+void visor_lixeiera(nos **lixeira);
+
+void visor_mao(mao *mao_jogador);
+
+void sprite_inimigo(int id_jogador);
+
+int guardar_carta(fila *fila, mao *hand, player *jogador);
+
+void proxima_carta(mao *mao, fila *fila);
+
+void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador);
+
+void teste(void);
+
+void mensagem_erro_lixeira(void);
 
 
 

@@ -36,9 +36,7 @@ char texto_escudo[16];
 
 _Bool turno = 0;
 
-player jogador1 = {1, 67, 13, 0, 0, 2};
-
-player jogador2 = {2, 14, 13, 0, 0, 2};
+player jogador1 = {1, 100, 20, 0, 0, 2};
 
 Texture2D icon_mao;
 
@@ -52,4 +50,20 @@ Texture2D background;
 
 Texture2D logo;
 
+player jogador2 = {2, 100, 20, 0, 0, 2};
 
+Texture2D icon_mao;
+
+Font fonte;
+
+Texture2D sprite_jogador1;
+
+Texture2D sprite_jogador2;
+
+Texture2D background;
+
+Texture2D logo;
+
+int efeito_ativo;
+
+float tempo_efeito;

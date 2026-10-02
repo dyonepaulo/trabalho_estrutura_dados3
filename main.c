@@ -6,6 +6,7 @@
 #include <stdio.h>
 int main()
 {
+
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
     char opcao;
@@ -16,26 +17,31 @@ int main()
     carregar_assets();
 
     // teste
+    nos *node_teste = calloc(1, sizeof(nos));
+    nos *node_teste2 = calloc(1, sizeof(nos));
+
     mao *mao_jogador1 = calloc(1, sizeof(mao));
-    mao_jogador1->carta_selecionada.carta = aura;
-    mao_jogador1->carta_selecionada.status = 1;
+    mao_jogador1->carta_selecionada = node_teste;
+    mao_jogador1->carta_selecionada->carta = aura;
+    mao_jogador1->carta_selecionada->status = 1;
     mao *mao_jogador2 = calloc(1, sizeof(mao));
-    mao_jogador2->carta_selecionada.status = 1;
-    mao_jogador2->carta_selecionada.carta = aura;
+    mao_jogador2->carta_selecionada = node_teste2;
+    mao_jogador2->carta_selecionada->status = 1;
+    mao_jogador2->carta_selecionada->carta = aura;
     lixeira->carta = marca_besta;
-    lixeira->status = 1;
+    lixeira->status = 0;
     // fimTeste
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(BLACK);
+
         if (tela_menu == 0)
         {
-
+            // ClearBackground(BLACK);
             DrawRectangleRounded(botao_menu, 0.2f, 10, GRAY); // desenha o botao com cantos arredondados
             DrawText("JOGAR", 530, 520, 67, WHITE);
-            DrawTextureEx(logo, (Vector2){435.2, 70}, 0, .4, RAYWHITE);
+            DrawTextureEx(logo, (Vector2){420., 55}, 0, .35, RAYWHITE);
 
             if (CheckCollisionPointRec(GetMousePosition(), botao_menu) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) // verifica se o mouse esta em cima do botao na janela e se apertou
             {
@@ -44,31 +50,17 @@ int main()
         }
         else if (tela_menu == 1)
         {
-            opcao = GetCharPressed();
             DrawTextureEx(background, posicao, 0, 0.7646f, RAYWHITE);
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
             {
-                barra_de_status(&jogador1);
+                
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
                 sprite_inimigo(0);
-                // proxima_carta(mao_jogador1); //falta concertar parametro
-
-                switch (opcao)
-                {
-                case '1':
-                    break;
-                case '2':
-                    break;
-                case '3':
-                    break;
-                case '4':
-                    break;
-                case '5':
-                    break;
-                }
-                ClearBackground(RAYWHITE);
+                proxima_carta(mao_jogador1, NULL); // falta concertar parametro
+                barra_de_status(&jogador1);
+                mensagem_erro_lixeira();
                 if (jogador1.energia == 0)
                 {
                     turno = 1;
@@ -108,5 +100,8 @@ int main()
 
         EndDrawing();
     }
+    free(mao_jogador1);
+    free(mao_jogador2);
+    free(lixeira);
     CloseWindow();
 }
