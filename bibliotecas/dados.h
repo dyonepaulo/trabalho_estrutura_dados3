@@ -78,11 +78,11 @@ extern carta marca_morte;
 
 extern Vector2 posicao;
 
-extern char texto_vida[3];
+extern char texto_vida[16];
 
-extern char texto_energia[3];
+extern char texto_energia[16];
 
-extern char texto_escudo[3];
+extern char texto_escudo[16];
 
 extern _Bool turno;
 

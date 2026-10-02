@@ -51,6 +51,7 @@ int main()
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
                 sprite_inimigo(0);
+                proxima_carta(mao_jogador1); //falta concertar parametro
                 ClearBackground(RAYWHITE);
                 if (jogador1.energia == 0)
                 {
@@ -66,6 +67,7 @@ int main()
                     visor_lixeiera(&lixeira);
                     visor_mao(mao_jogador2);
                     sprite_inimigo(1);
+                    proxima_carta(mao_jogador2); //falta concertar parametro
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {

@@ -20,7 +20,7 @@ void barra_de_status(player *jogador)
     Rectangle retangulovisor_escudo = {20, 50, (jogador->escudo * 5), 30};
     sprintf(texto_escudo, "%d/20", jogador->escudo);
     DrawRectangleRec(retangulofundo_escudo, GRAY);
-    DrawRectangleRec(retangulovisor_escudo, SKYBLUE);
+    DrawRectangleRec(retangulovisor_escudo, BLUE);
     DrawText(texto_escudo, 30, 55, 20, BLACK);
 
     // barra de energia
@@ -85,7 +85,7 @@ void gerar_cartas_p2(fila *fila)
         inserirNode(fila);
 
     nos *current = fila->primeiro;
-    int limite[] = {2, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
+    int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
     int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
 
     srand(time(NULL)); // define seed pro sorteador
@@ -106,18 +106,20 @@ void gerar_cartas_p2(fila *fila)
 
 int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
 {
-    player *jogador_afetado;
+    player *jogador_afetado, *jogador_caster;
 
     if (turno == 0)
     { // levando em consideração que o turno = 0 pertence ao jogador 1
         jogador_afetado = jogador2;
+        jogador_caster = jogador1;
     }
     else
     {
         jogador_afetado = jogador1;
+        jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
+    jogador_afetado->vida_atual -= ptr->dano + jogador_caster->dmg_buff;
     ptr->turns_cont--;
 
     return 0;
@@ -125,18 +127,20 @@ int Fmachado_assis(carta *ptr, player *jogador1, player *jogador2)
 
 int Fmike(carta *ptr, player *jogador1, player *jogador2)
 {
-    player *jogador_afetado;
+    player *jogador_afetado, *jogador_caster;
 
     if (turno == 0)
     {
         jogador_afetado = jogador2;
+        jogador_caster = jogador1;
     }
     else
     {
         jogador_afetado = jogador1;
+        jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= ptr->dano + jogador_afetado->dmg_buff;
+    jogador_afetado->vida_atual -= ptr->dano + jogador_caster->dmg_buff;
     ptr->turns_cont--;
 
     return 0;
@@ -322,6 +326,7 @@ void carregar_assets(void)
     logo = LoadTexture("assets/exugames.png");
     return;
 }
+
 void visor_lixeiera(nos **lixeira) // ta imcompleto
 {
     char texto[20];
@@ -373,19 +378,37 @@ void sprite_inimigo(int id_jogador)
     if (id_jogador == 0)
     {
         DrawTextureEx(sprite_jogador1, (Vector2){500, 220}, 0, .3, RAYWHITE);
-        Rectangle retangulofundo_inimigo = {515, 200, 200, 20};
-        Rectangle retangulovisor_inimigo = {515, 200, jogador1.vida_atual*2, 20};
+        Rectangle retangulofundo_inimigo = {515, 180, 200, 20};
+        Rectangle retangulovisor_inimigo = {515, 180, jogador1.vida_atual*2, 20};
+        Rectangle retangulofundo_inimigo_escudo = {515, 205, 200, 20};
+        Rectangle retangulovisor_inimigo_escudo = {515, 205, jogador1.escudo*10, 20};
         DrawRectangleRec(retangulofundo_inimigo, BLACK);
         DrawRectangleRec(retangulovisor_inimigo, RED);
+        DrawRectangleRec(retangulofundo_inimigo_escudo, BLACK);
+        DrawRectangleRec(retangulovisor_inimigo_escudo, SKYBLUE);
         return;
     }
     else
     {
         DrawTextureEx(sprite_jogador2, (Vector2){500, 220}, 0, .25, RAYWHITE);
-        Rectangle retangulofundo_inimigo = {515, 200, 200, 20};
-        Rectangle retangulovisor_inimigo = {515, 200, jogador2.vida_atual*2, 20};
+        Rectangle retangulofundo_inimigo = {515, 180, 200, 20};
+        Rectangle retangulovisor_inimigo = {515, 180, jogador2.vida_atual*2, 20};
+        Rectangle retangulofundo_inimigo_escudo = {515, 205, 200, 20};
+        Rectangle retangulovisor_inimigo_escudo = {515, 205, jogador2.escudo*10, 20};
         DrawRectangleRec(retangulofundo_inimigo, BLACK);
         DrawRectangleRec(retangulovisor_inimigo, RED);
+        DrawRectangleRec(retangulofundo_inimigo_escudo, BLACK);
+        DrawRectangleRec(retangulovisor_inimigo_escudo, SKYBLUE);
         return;
+    }
+}
+
+void proxima_carta(mao *mao, fila *fila){ //imcompletro
+    if (2<1){
+        Rectangle fundo_fila_vazia = {1140, 110, 150, 190};
+        DrawRectangleRounded(fundo_fila_vazia, 0.2f, 10, ColorAlpha(DARKGRAY, 0.7f)); 
+        DrawTextEx(fonte, "Nenhuma \ncarta \nrestante!", (Vector2){1148, 180}, 15, 0, MAROON);
+    } else {
+        DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1140, 110}, 0, 0.6f, RAYWHITE);
     }
 }

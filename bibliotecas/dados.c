@@ -28,17 +28,17 @@ carta marca_morte = {10, 1, 0, 0, 0, 0, 0, 0, 4, 1, .card_operation = Fmarca_mor
 
 Vector2 posicao = {0, 0};
 
-char texto_vida[3];
+char texto_vida[16];
 
-char texto_energia[3];
+char texto_energia[16];
 
-char texto_escudo[3];
+char texto_escudo[16];
 
 _Bool turno = 0;
 
-player jogador1 = {1, 67, 20, 0, 0, 2};
+player jogador1 = {1, 67, 13, 0, 0, 2};
 
-player jogador2 = {2, 14, 20, 0, 0, 2};
+player jogador2 = {2, 14, 13, 0, 0, 2};
 
 Texture2D icon_mao;
 
