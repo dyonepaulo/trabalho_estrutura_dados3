@@ -36,6 +36,18 @@ char texto_escudo[3];
 
 _Bool turno = 0;
 
-player jogador1 = {1, 100, 20, 0, 0, 2};
+player jogador1 = {1, 67, 20, 0, 0, 2};
 
-player jogador2 = {1, 50, 20, 0, 0, 2};
+player jogador2 = {2, 14, 20, 0, 0, 2};
+
+Texture2D icon_mao;
+
+Font fonte;
+
+Texture2D sprite_jogador1;
+
+Texture2D sprite_jogador2;
+
+Texture2D background;
+
+Texture2D logo;

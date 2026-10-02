@@ -4,19 +4,31 @@
 #include "bibliotecas/dados.h"
 #include "bibliotecas/funcoes.h"
 #include <stdio.h>
-
 int main()
 {
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
+    nos *lixeira = calloc(1, sizeof(nos));
 
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
-    Texture2D background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
-    Texture2D logo = LoadTexture("assets/exugames.png");
+    carregar_assets();
+
+    // teste
+    mao *mao_jogador1 = calloc(1, sizeof(mao));
+    mao_jogador1->carta_selecionada->carta = aura;
+    mao_jogador1->carta_selecionada->status = 1;
+    mao *mao_jogador2 = calloc(1, sizeof(mao));
+    mao_jogador2->carta_selecionada->status = 1;
+    mao_jogador2->carta_selecionada->carta = aura;
+    lixeira->carta = marca_besta;
+    lixeira->status = 1;
+    // fimTeste
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
+        ClearBackground(BLACK);
         if (tela_menu == 0)
         {
 
@@ -36,17 +48,35 @@ int main()
             if (turno == 0)
             {
                 barra_de_status(&jogador1);
+                visor_lixeiera(&lixeira);
+                visor_mao(mao_jogador1);
+                sprite_inimigo(0);
+                proxima_carta(mao_jogador1); //falta concertar parametro
                 ClearBackground(RAYWHITE);
-                turno = 1;
+                if (jogador1.energia == 0)
+                {
+                    turno = 1;
+                }
             }
             else
             {
-                barra_de_status(&jogador2);
-                ClearBackground(RAYWHITE);
-                turno = 0;
+                if (turno == 1)
+                {
+                    barra_de_status(&jogador2);
+                    sprite_inimigo(1);
+                    visor_lixeiera(&lixeira);
+                    visor_mao(mao_jogador2);
+                    sprite_inimigo(1);
+                    proxima_carta(mao_jogador2); //falta concertar parametro
+                    ClearBackground(RAYWHITE);
+                    if (jogador2.energia == 0)
+                    {
+                        turno = 0;
+                    }
+                }
             }
         }
-        ClearBackground(BLACK);
+
         EndDrawing();
     }
     CloseWindow();
