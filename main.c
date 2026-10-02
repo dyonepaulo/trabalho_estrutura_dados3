@@ -6,6 +6,7 @@
 #include <stdio.h>
 int main()
 {
+    
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
     nos *lixeira = calloc(1, sizeof(nos));
@@ -15,10 +16,15 @@ int main()
     carregar_assets();
 
     // teste
+    nos *node_teste = calloc(1, sizeof(nos));
+    nos *node_teste2 = calloc(1, sizeof(nos));
+    
     mao *mao_jogador1 = calloc(1, sizeof(mao));
+    mao_jogador1->carta_selecionada = node_teste;
     mao_jogador1->carta_selecionada->carta = aura;
     mao_jogador1->carta_selecionada->status = 1;
     mao *mao_jogador2 = calloc(1, sizeof(mao));
+    mao_jogador2->carta_selecionada = node_teste2;
     mao_jogador2->carta_selecionada->status = 1;
     mao_jogador2->carta_selecionada->carta = aura;
     lixeira->carta = marca_besta;
@@ -52,7 +58,7 @@ int main()
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
                 sprite_inimigo(0);
-                proxima_carta(mao_jogador1); //falta concertar parametro
+                // proxima_carta(mao_jogador1); //falta concertar parametro
                 ClearBackground(RAYWHITE);
                 if (jogador1.energia == 0)
                 {
@@ -68,7 +74,7 @@ int main()
                     visor_lixeiera(&lixeira);
                     visor_mao(mao_jogador2);
                     sprite_inimigo(1);
-                    proxima_carta(mao_jogador2); //falta concertar parametro
+                    // proxima_carta(mao_jogador2); //falta concertar parametro
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {
