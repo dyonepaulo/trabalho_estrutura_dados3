@@ -495,11 +495,29 @@ void proxima_carta(mao *mao, fila *fila)
     }
 }
 
+void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila)
+{
+    if (fila->primeiro != NULL)
+    {
+        mao->carta_selecionada = fila->primeiro;
+        fila->primeiro = fila->primeiro->proximo;
+        mao->carta_selecionada->proximo = NULL;
+        if(fila->primeiro == NULL){
+            fila->ultimo = NULL;
+        }
+    }
+    else {
+        if(pilha->topo == NULL && mao->carta_selecionada == NULL){
+            gerar_cartas(fila);
+        }
+    }
+}
 void teste(void)
 {
 
     DrawRectangle(0, 0, 1280, 720, Fade(RED, 0.2f));
 }
+
 void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador)
 {
     if (IsKeyPressed(KEY_ONE))
@@ -522,6 +540,7 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
     {
     }
 }
+
 void mensagem_erro_lixeira(void){
     if (efeito_ativo)
     {

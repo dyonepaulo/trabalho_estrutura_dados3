@@ -62,6 +62,8 @@ int colher_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador);
 
 int guardar_carta(fila *fila, mao *hand, player *jogador);
 
+void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila);
+
 
 
 #endif
