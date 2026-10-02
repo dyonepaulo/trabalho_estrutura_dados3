@@ -82,6 +82,7 @@ int main()
                 {
                     barra_de_status(&jogador2);
                     sprite_inimigo(1);
+                    proxima_carta(mao_jogador1, fila_jogador2); 
                     visor_lixeiera(&lixeira);
                     visor_mao(mao_jogador2);
                     sprite_inimigo(1);

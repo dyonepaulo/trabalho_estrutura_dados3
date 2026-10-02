@@ -417,6 +417,7 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
     }
     return;
 }
+
 void visor_mao(mao *mao)
 {
     if (mao->carta_selecionada->status == 0)
@@ -447,6 +448,7 @@ void visor_mao(mao *mao)
         return;
     }
 }
+
 void sprite_inimigo(int id_jogador)
 {
     if (id_jogador == 0)
@@ -479,7 +481,7 @@ void sprite_inimigo(int id_jogador)
 
 void proxima_carta(mao *mao, fila *fila)
 { // imcompletro
-    if (2 < 1)
+    if (fila->primeiro == NULL)
     {
         Rectangle fundo_fila_vazia = {1140, 60, 150, 190};
         DrawRectangleRounded(fundo_fila_vazia, 0.2f, 10, ColorAlpha(DARKGRAY, 0.7f));
@@ -487,7 +489,9 @@ void proxima_carta(mao *mao, fila *fila)
     }
     else
     {
-        DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1090, 50}, 0, .5, RAYWHITE);
+        DrawRectangle(1140, 40, 150, 45, ColorAlpha(DARKGRAY, 0.7f));
+        DrawTextEx(fonte, "Proxima\n carta", (Vector2){1150, 48}, 15, 0, MAROON);
+        DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1090, 70}, 0, .5, RAYWHITE);
     }
 }
 

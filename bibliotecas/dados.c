@@ -34,7 +34,7 @@ char texto_energia[16];
 
 char texto_escudo[16];
 
-_Bool turno = 0;
+_Bool turno = 1;
 
 player jogador1 = {1, 100, 20, 0, 0, 2};
 
