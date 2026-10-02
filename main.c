@@ -8,6 +8,7 @@ int main()
 {
     Rectangle botao_menu = {520, 499, 240, 100};
     int tela_menu = 0;
+    char opcao;
     nos *lixeira = calloc(1, sizeof(nos));
 
     InitWindow(1280, 718, "CARD GAMES");
@@ -43,6 +44,7 @@ int main()
         }
         else if (tela_menu == 1)
         {
+            opcao = GetCharPressed();
             DrawTextureEx(background, posicao, 0, 0.7646f, RAYWHITE);
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
@@ -51,7 +53,21 @@ int main()
                 visor_lixeiera(&lixeira);
                 visor_mao(mao_jogador1);
                 sprite_inimigo(0);
-                proxima_carta(mao_jogador1); //falta concertar parametro
+                // proxima_carta(mao_jogador1); //falta concertar parametro
+
+                switch (opcao)
+                {
+                case '1':
+                    break;
+                case '2':
+                    break;
+                case '3':
+                    break;
+                case '4':
+                    break;
+                case '5':
+                    break;
+                }
                 ClearBackground(RAYWHITE);
                 if (jogador1.energia == 0)
                 {
@@ -67,7 +83,20 @@ int main()
                     visor_lixeiera(&lixeira);
                     visor_mao(mao_jogador2);
                     sprite_inimigo(1);
-                    proxima_carta(mao_jogador2); //falta concertar parametro
+                    // proxima_carta(mao_jogador2); //falta concertar parametro
+                    switch (opcao)
+                    {
+                    case '1':
+                        break;
+                    case '2':
+                        break;
+                    case '3':
+                        break;
+                    case '4':
+                        break;
+                    case '5':
+                        break;
+                    }
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {

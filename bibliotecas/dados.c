@@ -51,3 +51,5 @@ Texture2D sprite_jogador2;
 Texture2D background;
 
 Texture2D logo;
+
+
