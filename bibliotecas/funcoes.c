@@ -404,10 +404,10 @@ void carregar_assets(void)
     return;
 }
 
-void visor_lixeiera(nos **lixeira) // ta imcompleto
+void visor_lixeiera(lixeira *lixeira) // ta imcompleto
 {
     char texto[20];
-    if ((*lixeira)->status == 0)
+    if (lixeira->topo->status == 0)
     {
         DrawRectangle(10, 400, 220, 310, GRAY);
         DrawTextEx(fonte, "LIXEIRA\nVAZIA", (Vector2){40, 550}, 20, 1, BLACK);
@@ -548,7 +548,6 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
 {
     if (IsKeyPressed(KEY_ONE))
     {
-        efeito_ativo = 1;
     }
     else if (IsKeyPressed(KEY_TWO))
     {
@@ -560,7 +559,11 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
     }
     else if (IsKeyPressed(KEY_FOUR))
     {
-        // ação para a opção 4
+        if (lixeira->topo->status == 0)
+        {
+            efeito_ativo = 1;
+            return;
+        }
     }
     else if (IsKeyPressed(KEY_FIVE))
     {
@@ -617,7 +620,7 @@ void game_over(void)
         }
     }
 }
-void recarregar_jogo(void) //volta todos os dados originais do jogo, para que o jogador possa jogar novamente
+void recarregar_jogo(void) // volta todos os dados originais do jogo, para que o jogador possa jogar novamente
 {
     machado_assis = (carta){1, 1, 20, 0, 0, 0, 0, 0, 0, 1, .card_operation = Fmachado_assis, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
 
@@ -656,4 +659,12 @@ void recarregar_jogo(void) //volta todos os dados originais do jogo, para que o 
     id_jogador_desistente = 0;
 
     transparencia = 1.0f;
+}
+void erro_alocacao(nos *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2)
+{
+    if (lixeira == NULL || mao_jogador1 == NULL || mao_jogador2 == NULL || fila_jogador1 == NULL || fila_jogador2 == NULL)
+    {
+        printf("Falha na alocação de memória. ");
+        exit(1);
+    }
 }

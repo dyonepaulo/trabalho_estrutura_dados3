@@ -6,45 +6,31 @@
 #include <stdio.h>
 int main()
 {
-
-    Rectangle botao_menu = {520, 499, 240, 100};
-    char opcao;
-    nos *lixeira = calloc(1, sizeof(nos));
-
-    srand(time(NULL)); // define seed pro sorteador
     InitWindow(1280, 718, "CARD GAMES");
     SetTargetFPS(60);
-    carregar_assets();
 
-    // teste
-    nos *node_teste = calloc(1, sizeof(nos));
-    nos *node_teste2 = calloc(1, sizeof(nos));
+    Rectangle botao_menu = {520, 499, 240, 100};
+    srand(time(NULL)); // define seed pro sorteador
 
+    // alocação de memória para as estruturas de dados
+    lixeira *lixeira = calloc(1, sizeof(nos));
     mao *mao_jogador1 = calloc(1, sizeof(mao));
-    mao_jogador1->carta_selecionada = node_teste;
-    mao_jogador1->carta_selecionada->carta = aura;
-    mao_jogador1->carta_selecionada->status = 1;
     mao *mao_jogador2 = calloc(1, sizeof(mao));
-    mao_jogador2->carta_selecionada = node_teste2;
-    mao_jogador2->carta_selecionada->status = 1;
-    mao_jogador2->carta_selecionada->carta = aura;
-    lixeira->carta = marca_besta;
-    lixeira->status = 0;
-    // fimTeste
-
     fila *fila_jogador1 = calloc(1, sizeof(fila));
     fila *fila_jogador2 = calloc(1, sizeof(fila));
-    if (fila_jogador1 == NULL || fila_jogador2 == NULL)
-    {
-        printf("Falha na alocação de memória. ");
-        exit(1);
-    }
+    // nos *node = calloc(1, sizeof(nos));
 
-    fila_jogador1->primeiro = NULL;
-    fila_jogador2->ultimo = NULL;
-    fila_jogador2->primeiro = NULL;
-    fila_jogador2->ultimo = NULL;
+    // mao_jogador1->carta_selecionada = node;
+    // mao_jogador2->carta_selecionada = node;
+    erro_alocacao(lixeira, mao_jogador1, mao_jogador2, fila_jogador1, fila_jogador2);
 
+    // fila_jogador1->primeiro = NULL;
+    // fila_jogador2->ultimo = NULL;
+    // fila_jogador2->primeiro = NULL;
+    // fila_jogador2->ultimo = NULL;
+    // lixeira->proximo = NULL;
+
+    carregar_assets();
     gerar_cartas(fila_jogador1);
     gerar_cartas(fila_jogador2);
 
@@ -71,11 +57,11 @@ int main()
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
             {
-
+                carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
+                proxima_carta(mao_jogador1, fila_jogador1); // em teste
                 visor_mao(mao_jogador1, &jogador1);
                 visor_lixeiera(&lixeira);
                 sprite_inimigo(0);
-                proxima_carta(mao_jogador1, fila_jogador1); // em teste
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
                 if (jogador1.energia == 0)
@@ -87,6 +73,7 @@ int main()
             {
                 if (turno == 1)
                 {
+                    carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
                     barra_de_status(&jogador2);
                     sprite_inimigo(1);
                     proxima_carta(mao_jogador1, fila_jogador2);
@@ -94,19 +81,6 @@ int main()
                     visor_lixeiera(&lixeira);
                     sprite_inimigo(1);
                     // proxima_carta(mao_jogador2); //falta concertar parametro
-                    switch (opcao)
-                    {
-                    case '1':
-                        break;
-                    case '2':
-                        break;
-                    case '3':
-                        break;
-                    case '4':
-                        break;
-                    case '5':
-                        break;
-                    }
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {

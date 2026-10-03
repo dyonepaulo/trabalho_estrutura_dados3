@@ -28,7 +28,7 @@ void carregar_assets(void);
 
 void sprite_inimigo(int id_jogador);
 
-void visor_lixeiera(nos **lixeira);
+void visor_lixeiera(lixeira **lixeira);
 
 void visor_mao(mao *mao_jogador,player *jogador);
 
@@ -59,5 +59,7 @@ void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila);
 void game_over(void);
 
 void recarregar_jogo(void);
+
+void erro_alocacao(nos *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2);
 
 #endif
