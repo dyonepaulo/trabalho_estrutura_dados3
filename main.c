@@ -8,7 +8,6 @@ int main()
 {
 
     Rectangle botao_menu = {520, 499, 240, 100};
-    int tela_menu = 0;
     char opcao;
     nos *lixeira = calloc(1, sizeof(nos));
 
@@ -35,7 +34,8 @@ int main()
 
     fila *fila_jogador1 = calloc(1, sizeof(fila));
     fila *fila_jogador2 = calloc(1, sizeof(fila));
-    if(fila_jogador1 == NULL || fila_jogador2 == NULL){
+    if (fila_jogador1 == NULL || fila_jogador2 == NULL)
+    {
         printf("Falha na alocação de memória. ");
         exit(1);
     }
@@ -50,11 +50,12 @@ int main()
 
     while (!WindowShouldClose())
     {
+        ClearBackground(RAYWHITE);
         BeginDrawing();
-
+        game_over();
         if (tela_menu == 0)
         {
-            // ClearBackground(BLACK);
+            ClearBackground(BLACK);
             DrawRectangleRounded(botao_menu, 0.2f, 10, GRAY); // desenha o botao com cantos arredondados
             DrawText("JOGAR", 530, 520, 67, WHITE);
             DrawTextureEx(logo, (Vector2){420., 55}, 0, .35, RAYWHITE);
@@ -70,10 +71,11 @@ int main()
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
             {
+
+                visor_mao(mao_jogador1, &jogador1);
                 visor_lixeiera(&lixeira);
-                visor_mao(mao_jogador1);
                 sprite_inimigo(0);
-                proxima_carta(mao_jogador1, fila_jogador1); //em teste
+                proxima_carta(mao_jogador1, fila_jogador1); // em teste
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
                 if (jogador1.energia == 0)
@@ -87,9 +89,9 @@ int main()
                 {
                     barra_de_status(&jogador2);
                     sprite_inimigo(1);
-                    proxima_carta(mao_jogador1, fila_jogador2); 
+                    proxima_carta(mao_jogador1, fila_jogador2);
+                    visor_mao(mao_jogador2, &jogador2);
                     visor_lixeiera(&lixeira);
-                    visor_mao(mao_jogador2);
                     sprite_inimigo(1);
                     // proxima_carta(mao_jogador2); //falta concertar parametro
                     switch (opcao)
@@ -113,7 +115,6 @@ int main()
                 }
             }
         }
-
         EndDrawing();
     }
     free(mao_jogador1);

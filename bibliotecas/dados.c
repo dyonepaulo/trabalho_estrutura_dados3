@@ -34,7 +34,7 @@ char texto_energia[16];
 
 char texto_escudo[16];
 
-_Bool turno = 1;
+int turno = 0;
 
 player jogador1 = {1, 100, 20, 0, 0, 2};
 
@@ -64,6 +64,20 @@ Texture2D background;
 
 Texture2D logo;
 
+Texture2D jogador1WIN;
+
+Texture2D jogador2WIN;
+
 int efeito_ativo;
 
 float tempo_efeito;
+
+int tela_menu = 0;
+
+int gameover_ativo;
+
+float tempo_gameover = 0;
+
+int id_jogador_desistente = 0;
+
+float transparencia = 1.0f;

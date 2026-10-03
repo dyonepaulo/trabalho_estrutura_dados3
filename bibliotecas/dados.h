@@ -86,7 +86,7 @@ extern char texto_energia[16];
 
 extern char texto_escudo[16];
 
-extern _Bool turno;
+extern int turno;
 
 extern player jogador1;
 
@@ -108,6 +108,18 @@ extern int efeito_ativo;
 
 extern float tempo_efeito;
 
+extern int tela_menu;
 
+extern int gameover_ativo;
+
+extern float tempo_gameover;
+
+extern int id_jogador_desistente;
+
+extern Texture2D jogador1WIN;
+
+extern Texture2D jogador2WIN;
+
+extern float transparencia;
 
 #endif

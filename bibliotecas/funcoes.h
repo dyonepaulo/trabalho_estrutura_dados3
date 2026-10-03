@@ -26,19 +26,11 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2);
 
 void carregar_assets(void);
 
-void visor_lixeiera(nos **lixeira);
-
-void visor_mao(mao *mao_jogador);
-
 void sprite_inimigo(int id_jogador);
-
-void carregar_assets(void); //duplicado?
 
 void visor_lixeiera(nos **lixeira);
 
-void visor_mao(mao *mao_jogador);
-
-void sprite_inimigo(int id_jogador);
+void visor_mao(mao *mao_jogador,player *jogador);
 
 int guardar_carta(fila *fila, mao *hand, player *jogador);
 
@@ -58,12 +50,14 @@ int jogar_carta(fila *fila, mao *hand, player *jogador);
 
 void descarte_carta(mao *hand, lixeira *pilha, player *jogador);
 
-int colher_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador);
+int colher_carta(fila *fila, lixeira *pilha, player *jogador);
 
 int guardar_carta(fila *fila, mao *hand, player *jogador);
 
 void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila);
 
+void game_over(void);
 
+void recarregar_jogo(void);
 
 #endif

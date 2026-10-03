@@ -63,7 +63,7 @@ void gerar_cartas(fila *fila)
 
     nos *current = fila->primeiro;
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[6] = {0};                        // conta quantas vezes cada carta já apareceu
+    int contador[6] = {0};                         // conta quantas vezes cada carta já apareceu
 
     while (current)
     { // condição de saída do loop: somente quando current == NULL
@@ -74,47 +74,47 @@ void gerar_cartas(fila *fila)
         contador[current->id - 1]++; // conta quantas vezes o ID apareceu
         fila->tamanho++;
 
-        switch (current->id){
-            case 1:
-                current->carta = machado_assis;
-                break;
+        switch (current->id)
+        {
+        case 1:
+            current->carta = machado_assis;
+            break;
 
-            case 2:
-                current->carta = mike;
-                break;
+        case 2:
+            current->carta = mike;
+            break;
 
-            case 3:
-                current->carta = lágrimas;
-                break;
+        case 3:
+            current->carta = lágrimas;
+            break;
 
-            case 4:
-                current->carta = escudo;
-                break;
+        case 4:
+            current->carta = escudo;
+            break;
 
-            case 5:
-                current->carta = aura;
-                break;
+        case 5:
+            current->carta = aura;
+            break;
 
-            case 6:
-                current->carta = marca_besta;
-                break;
+        case 6:
+            current->carta = marca_besta;
+            break;
 
-            case 7:
-                current->carta = espinafre;
-                break;
+        case 7:
+            current->carta = espinafre;
+            break;
 
-            case 8:
-                current->carta = benção;
-                break;
+        case 8:
+            current->carta = benção;
+            break;
 
-            case 9:
-                current->carta = beijo;
-                break;
+        case 9:
+            current->carta = beijo;
+            break;
 
-            case 10:
-                current->carta = marca_morte;
-                break;
-
+        case 10:
+            current->carta = marca_morte;
+            break;
         }
         current = current->proximo;
     }
@@ -322,8 +322,8 @@ int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
     }
     else
     {
-        hand->carta_selecionada->proximo = pilha->topo; 
-        pilha->topo = hand->carta_selecionada;         
+        hand->carta_selecionada->proximo = pilha->topo;
+        pilha->topo = hand->carta_selecionada;
     }
 
     // avançando a fila...
@@ -341,10 +341,13 @@ int colher_carta(fila *fila, lixeira *pilha, player *jogador)
         return 0;
 
     nos *temp = pilha->topo;
-    if (fila->primeiro == NULL) {
+    if (fila->primeiro == NULL)
+    {
         fila->ultimo = temp;
         fila->primeiro = temp;
-    } else {
+    }
+    else
+    {
         fila->ultimo->proximo = temp;
         fila->ultimo = temp;
     }
@@ -356,10 +359,13 @@ int colher_carta(fila *fila, lixeira *pilha, player *jogador)
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if (fila->primeiro == NULL){
+    if (fila->primeiro == NULL)
+    {
         fila->primeiro = hand->carta_selecionada;
         fila->ultimo = hand->carta_selecionada;
-    } else {
+    }
+    else
+    {
         fila->ultimo->proximo = hand->carta_selecionada;
         fila->ultimo = hand->carta_selecionada;
     }
@@ -393,6 +399,8 @@ void carregar_assets(void)
     sprite_jogador2 = LoadTexture("assets/ZePilintra.png");
     background = LoadTexture("assets/retro-pixel-art-background-with-sun-arcade_1303033-5146.png");
     logo = LoadTexture("assets/exugames.png");
+    jogador1WIN = LoadTexture("assets/tungWIN.png");
+    jogador2WIN = LoadTexture("assets/zeWIN.png");
     return;
 }
 
@@ -403,6 +411,7 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
     {
         DrawRectangle(10, 400, 220, 310, GRAY);
         DrawTextEx(fonte, "LIXEIRA\nVAZIA", (Vector2){40, 550}, 20, 1, BLACK);
+        DrawRectangle(20, 257, 400, 3, WHITE);
         return;
     }
     else
@@ -426,7 +435,7 @@ void visor_lixeiera(nos **lixeira) // ta imcompleto
     return;
 }
 
-void visor_mao(mao *mao)
+void visor_mao(mao *mao, player *jogador)
 {
     if (mao->carta_selecionada->status == 0)
     {
@@ -435,7 +444,7 @@ void visor_mao(mao *mao)
     }
     else
     {
-        opcoes_menu(NULL, NULL, NULL, NULL);
+        opcoes_menu(NULL, NULL, NULL, jogador);
         // desenha a carta selecionada na mão do jogador
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
         DrawTextureEx(mao->carta_selecionada->carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
@@ -446,12 +455,13 @@ void visor_mao(mao *mao)
         DrawTextEx(fonte, "Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
 
         // mostra as opcaos que o jogador pode escolher fazer com a carta
-        DrawRectangle(15, 185, 430, 110, Fade(BLACK, 0.6f));
+        DrawRectangle(15, 185, 430, 135, Fade(BLACK, 0.6f));
         DrawTextEx(fonte, "1. Usar carta\n"
                           "2. Colocar na lixeira\n"
                           "3. Guardar no final da fila\n"
                           "4. Colher carta da lixeira\n"
-                          "5. Aceitar a derrota",
+                          "5. Aceitar a derrota\n"
+                          "6. Passar a vez",
                    (Vector2){30, 200}, 15, 0, (Color){255, 255, 255, 200});
         return;
     }
@@ -503,9 +513,8 @@ void proxima_carta(mao *mao, fila *fila)
         DrawRectangle(1140, 40, 150, 45, ColorAlpha(DARKGRAY, 0.7f));
         DrawTextEx(fonte, "Proxima\n carta", (Vector2){1150, 48}, 15, 0, MAROON);
 
-        for (int i=0 ; i < fila->tamanho ; i++, fix_index += 10)
+        for (int i = 0; i < fila->tamanho; i++, fix_index += 10)
             DrawTextureEx(fila->primeiro->carta.imagem_carta, (Vector2){1100 - fix_index, 70}, 0, .5, RAYWHITE);
-        
     }
 }
 
@@ -516,12 +525,15 @@ void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila)
         mao->carta_selecionada = fila->primeiro;
         fila->primeiro = fila->primeiro->proximo;
         mao->carta_selecionada->proximo = NULL;
-        if(fila->primeiro == NULL){
+        if (fila->primeiro == NULL)
+        {
             fila->ultimo = NULL;
         }
     }
-    else {
-        if(pilha->topo == NULL && mao->carta_selecionada == NULL){
+    else
+    {
+        if (pilha->topo == NULL && mao->carta_selecionada == NULL)
+        {
             gerar_cartas(fila);
         }
     }
@@ -552,10 +564,25 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
     }
     else if (IsKeyPressed(KEY_FIVE))
     {
+        gameover_ativo = 1;
+        tela_menu = 3;
+        id_jogador_desistente = jogador->id_player;
+    }
+    else if (IsKeyPressed(KEY_SIX))
+    {
+        if (jogador->id_player == 1)
+        {
+            turno = 1;
+        }
+        else
+        {
+            turno = 0;
+        }
     }
 }
 
-void mensagem_erro_lixeira(void){
+void mensagem_erro_lixeira(void)
+{
     if (efeito_ativo)
     {
         tempo_efeito += GetFrameTime();
@@ -567,4 +594,66 @@ void mensagem_erro_lixeira(void){
             tempo_efeito = 0;
         }
     }
+}
+void game_over(void)
+{
+    if (gameover_ativo)
+    {
+        tempo_gameover += GetFrameTime();
+        transparencia -= GetFrameTime();
+
+        if (id_jogador_desistente == jogador1.id_player)
+        {
+            DrawTextureEx(jogador1WIN, (Vector2){0, 0}, 0, 0.7656, RAYWHITE);
+        }
+        else
+        {
+            DrawTextureEx(jogador2WIN, (Vector2){0, 0}, 0, 0.7656, RAYWHITE);
+        }
+        DrawRectangle(0, 0, 1280, 718, Fade(BLACK, transparencia));
+        if (tempo_gameover >= 3.0f)
+        {
+            recarregar_jogo();
+        }
+    }
+}
+void recarregar_jogo(void) //volta todos os dados originais do jogo, para que o jogador possa jogar novamente
+{
+    machado_assis = (carta){1, 1, 20, 0, 0, 0, 0, 0, 0, 1, .card_operation = Fmachado_assis, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
+
+    mike = (carta){2, 2, 35, 0, 0, 0, 0, 0, 0, 1, .card_operation = Fmike, "mike tyson", "Causa 35 de dano", "\"evitherathe your enemith\""};
+
+    lágrimas = (carta){3, 1, 0, 15, 0, 0, 0, 0, 0, 1, .card_operation = Flágrimas, "Lágrimas da santa", "cura 15 de pv", "Lágrimas de uma santa esquecida pelo tempo, possuem propriedades de cura."};
+
+    escudo = (carta){4, 1, 0, 0, 10, 0, 0, 0, 0, 1, .card_operation = Fescudo, "Placa de aço", "Da 10 de escudo", "Uma placa de aço de procedência desconhecida, encontrada jogada por aí. \"Do androids dream of eletrical sheep?\""};
+
+    aura = (carta){5, 1, 0, 8, 5, 0, 0, 0, 0, 1, .card_operation = Faura, "Escudo de aura", "cura 8 de vida e 5 de escudo", "Um escudo de aura com propriedades curativas"};
+
+    marca_besta = (carta){6, 1, 0, 0, 0, 15, 0, 10, 0, 1, .card_operation = Fmarca_besta, "Marca da besta", "aumenta o dano causado em 15 e recebido em 10", "Maldição que aumenta o dano inflingido ao custo de fragilizar o portador"};
+
+    espinafre = (carta){7, 1, 0, 0, 0, 10, 0, 0, 0, 1, .card_operation = Fespinafre, "leite de boi", "aumenta o dano em 10", "deixa o caba mais forte"};
+
+    benção = (carta){8, 1, 0, 0, 0, 0, 3, 0, 0, 1, .card_operation = Fbenção, "Benção", "aumenta a eficiencia de cartas de cura em 3", "\"You feel blessed\""};
+
+    beijo = (carta){9, 1, 0, 0, 0, 0, 0, 10, 0, 1, .card_operation = Fbeijo, "Beijo de judas", "diminui o dano do seu inimigo em 10", "Um símbolo de traição e a venda de seus companheiros."};
+
+    marca_morte = (carta){10, 1, 0, 0, 0, 0, 0, 0, 4, 1, .card_operation = Fmarca_morte, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
+
+    posicao = (Vector2){0, 0};
+
+    turno = 0;
+
+    jogador1 = (player){1, 100, 20, 0, 0, 2};
+
+    jogador2 = (player){2, 100, 20, 0, 0, 2};
+
+    tela_menu = 0;
+
+    tempo_gameover = 0;
+
+    gameover_ativo = 0;
+
+    id_jogador_desistente = 0;
+
+    transparencia = 1.0f;
 }
