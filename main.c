@@ -13,7 +13,7 @@ int main()
     srand(time(NULL)); // define seed pro sorteador
 
     // alocação de memória para as estruturas de dados
-    lixeira *lixeira = calloc(1, sizeof(nos));
+    lixeira *lixeira = calloc(1, sizeof(lixeira));
     mao *mao_jogador1 = calloc(1, sizeof(mao));
     mao *mao_jogador2 = calloc(1, sizeof(mao));
     fila *fila_jogador1 = calloc(1, sizeof(fila));
@@ -28,16 +28,21 @@ int main()
     // fila_jogador2->ultimo = NULL;
     // fila_jogador2->primeiro = NULL;
     // fila_jogador2->ultimo = NULL;
-    // lixeira->proximo = NULL;
+    // lixeira->topo = node;
 
     carregar_assets();
     gerar_cartas(fila_jogador1);
     gerar_cartas(fila_jogador2);
+    mao_jogador1->carta_selecionada = fila_jogador1->primeiro;
+    fila_jogador1->primeiro = fila_jogador1->primeiro->proximo;
+    mao_jogador2->carta_selecionada = fila_jogador2->primeiro;
+    fila_jogador2->primeiro = fila_jogador2->primeiro->proximo;
 
     while (!WindowShouldClose())
     {
-        ClearBackground(RAYWHITE);
+
         BeginDrawing();
+        ClearBackground(RAYWHITE);
         game_over();
         if (tela_menu == 0)
         {
@@ -57,15 +62,19 @@ int main()
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
             if (turno == 0)
             {
-                carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
+                if (mao_jogador1->carta_selecionada == NULL)
+                {
+                    carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
+                }
                 proxima_carta(mao_jogador1, fila_jogador1); // em teste
-                visor_mao(mao_jogador1, &jogador1);
-                visor_lixeiera(&lixeira);
+                visor_mao(mao_jogador1, &jogador1, lixeira,fila_jogador1);
+                visor_lixeiera(lixeira);
                 sprite_inimigo(0);
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
                 if (jogador1.energia == 0)
                 {
+                    jogador1.energia = 2;
                     turno = 1;
                 }
             }
@@ -73,17 +82,21 @@ int main()
             {
                 if (turno == 1)
                 {
-                    carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
+                    if (mao_jogador2->carta_selecionada == NULL)
+                    {
+                        carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
+                    }
                     barra_de_status(&jogador2);
                     sprite_inimigo(1);
                     proxima_carta(mao_jogador1, fila_jogador2);
-                    visor_mao(mao_jogador2, &jogador2);
-                    visor_lixeiera(&lixeira);
+                    visor_mao(mao_jogador2, &jogador2, lixeira,fila_jogador2);
+                    visor_lixeiera(lixeira);
                     sprite_inimigo(1);
-                    // proxima_carta(mao_jogador2); //falta concertar parametro
+                    mensagem_erro_lixeira();
                     ClearBackground(RAYWHITE);
                     if (jogador2.energia == 0)
                     {
+                        jogador2.energia = 2;
                         turno = 0;
                     }
                 }

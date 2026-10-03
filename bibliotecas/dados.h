@@ -4,7 +4,6 @@
 
 // ESTRUTURAS DE DADOS
 typedef struct nos nos; // compilador precisa saber que existira uma struct chamada fila, para que eu consiga inicializar uma variavel do tipo fila dentro da propria estrutura fila
-
 typedef struct carta carta;
 typedef struct player player;
 typedef struct mao mao;
@@ -12,7 +11,7 @@ typedef struct mao mao;
 struct carta
 {
     int ID, energia, dano, cura, escudo, dmg_buff_ally, heal_buff_ally, dmg_buff_enemy, heal_buff_enemy, turns_cont;
-    int (*card_operation)(carta carta, player *jogador1, player *jogador2); // ponteiro para uma função que retorna um int e utiliza ponteiros para struct carta e player como parâmetros;
+    int (*card_operation)(carta carta, player *jogador1, player *jogador2);
     char nome[30], stats[50], descricao[150];
     Texture2D imagem_carta;
 };

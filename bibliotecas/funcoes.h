@@ -28,9 +28,9 @@ void carregar_assets(void);
 
 void sprite_inimigo(int id_jogador);
 
-void visor_lixeiera(lixeira **lixeira);
+void visor_lixeiera(lixeira *lixeira);
 
-void visor_mao(mao *mao_jogador,player *jogador);
+void visor_mao(mao *mao_jogador, player *jogador, lixeira *lixeira, fila *fila);
 
 int guardar_carta(fila *fila, mao *hand, player *jogador);
 
@@ -60,6 +60,10 @@ void game_over(void);
 
 void recarregar_jogo(void);
 
-void erro_alocacao(nos *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2);
+void erro_alocacao(lixeira *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2);
+
+void esvaziar_pilha(lixeira *pilha);
+
+void esvaziar_filas(fila *fila);
 
 #endif
