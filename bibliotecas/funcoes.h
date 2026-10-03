@@ -60,4 +60,8 @@ void game_over(void);
 
 void recarregar_jogo(void);
 
+void esvaziar_pilha(lixeira *pilha);
+
+void esvaziar_filas(fila *fila)
+
 #endif

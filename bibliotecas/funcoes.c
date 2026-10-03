@@ -52,8 +52,9 @@ void inserirNode(fila *fila)
     {
         fila->ultimo->proximo = node;
         fila->ultimo = node;
-        node->proximo = NULL;
     }
+
+    fila->ultimo->proximo = NULL;
 }
 
 void gerar_cartas(fila *fila)
@@ -296,7 +297,7 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 
 int jogar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if (hand == NULL)
+    if (hand->carta_selecionada == NULL)
         return 0;
 
     int retorno_função = hand->carta_selecionada->carta.card_operation((hand->carta_selecionada->carta), &jogador1, &jogador2);
@@ -310,11 +311,15 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
     hand->carta_selecionada = temp;
 
     jogador->energia--;
+    fila->tamanho--;
     return 0;
 }
 
 int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
 {
+    if(hand->carta_selecionada ==  NULL)
+        return 0;
+
     if (pilha->topo == NULL)
     {
         pilha->topo = hand->carta_selecionada;
@@ -332,6 +337,7 @@ int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
     hand->carta_selecionada = temp;
 
     jogador->energia--;
+    fila->tamanho--;
     return 0;
 }
 
@@ -341,26 +347,29 @@ int colher_carta(fila *fila, lixeira *pilha, player *jogador)
         return 0;
 
     nos *temp = pilha->topo;
+    pilha->topo = pilha->topo->proximo;
+
     if (fila->primeiro == NULL)
     {
-        fila->ultimo = temp;
         fila->primeiro = temp;
-    }
-    else
-    {
+        fila->ultimo = temp;
+        fila->ultimo->proximo = NULL;
+    } else {
         fila->ultimo->proximo = temp;
         fila->ultimo = temp;
     }
 
-    temp->proximo = NULL;
     jogador->energia--;
+    fila->tamanho++;
     return 0;
 }
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if (fila->primeiro == NULL)
-    {
+    if(hand->carta_selecionada == NULL)
+        return 0;
+
+    if (fila->primeiro == NULL){
         fila->primeiro = hand->carta_selecionada;
         fila->ultimo = hand->carta_selecionada;
     }
@@ -499,7 +508,6 @@ void sprite_inimigo(int id_jogador)
 
 void proxima_carta(mao *mao, fila *fila)
 { // imcompletro
-    nos *current;
     int fix_index = 20;
 
     if (fila->primeiro == NULL)
@@ -594,6 +602,44 @@ void mensagem_erro_lixeira(void)
             tempo_efeito = 0;
         }
     }
+}
+
+void esvaziar_filas(fila *fila){
+    if (fila->primeiro == NULL)
+        return;
+
+    nos *atual = fila->primeiro;
+    nos *prox = atual;
+
+    while (atual != NULL)
+    {
+        prox = atual->proximo; 
+        free(atual);
+        atual = prox;
+    }
+
+    fila->primeiro = NULL;
+    fila->ultimo = NULL;
+
+    return;
+}
+
+void esvaziar_pilha(lixeira *pilha){
+    if (pilha->topo == NULL)
+        return;
+
+    nos *atual = pilha->topo;
+    nos *prox = atual;
+
+    while (atual != NULL)
+    {
+        prox = atual->proximo; 
+        free(atual);
+        atual = prox;
+    }
+
+    pilha->topo = NULL;
+    return;
 }
 void game_over(void)
 {
