@@ -64,7 +64,7 @@ void gerar_cartas(fila *fila)
 
     nos *current = fila->primeiro;
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[10] = {0};                         // conta quantas vezes cada carta já apareceu
+    int contador[10] = {0};                        // conta quantas vezes cada carta já apareceu
 
     while (current)
     { // condição de saída do loop: somente quando current == NULL
@@ -119,8 +119,9 @@ void gerar_cartas(fila *fila)
         }
         current = current->proximo;
     }
-    
-    for(int i = 0 ; i < 9; i++){
+
+    for (int i = 0; i < 9; i++)
+    {
         contador[i] = 0;
     }
 }
@@ -311,7 +312,8 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
     if (hand->carta_selecionada == NULL)
         return 1;
 
-    if (jogador->energia - 1 < 0) {
+    if (jogador->energia - 1 < 0)
+    {
         return 2;
     }
 
@@ -334,7 +336,8 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
 
 int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador)
 {
-    if(hand->carta_selecionada ==  NULL){
+    if (hand->carta_selecionada == NULL)
+    {
         return 1;
     }
 
@@ -350,23 +353,24 @@ int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador)
     }
 
     // avançando a fila...
-    if (fila->primeiro == NULL){
+    if (fila->primeiro == NULL)
+    {
         hand->carta_selecionada = NULL;
         return 2;
     }
-    
+
     nos *temp = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
 
     fila->tamanho--;
-   
+
     return 0;
 }
 
 int colher_carta(fila *fila, pilha *lixeira, player *jogador)
 {
-    if(jogador->energia - 1 < 0)
+    if (jogador->energia - 1 < 0)
         return 1;
 
     if (lixeira->topo == NULL)
@@ -394,10 +398,10 @@ int colher_carta(fila *fila, pilha *lixeira, player *jogador)
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if(jogador->energia - 1 < 0)
+    if (jogador->energia - 1 < 0)
         return 1;
 
-    if(hand->carta_selecionada == NULL)
+    if (hand->carta_selecionada == NULL)
         return 2;
 
     if (fila->primeiro == NULL)
@@ -458,7 +462,7 @@ void visor_lixeiera(pilha *lixeira) // ta imcompleto
         DrawRectangle(10, 370, 200, 300, GRAY);
 
         DrawTextureEx(
-             lixeira->topo->carta.imagem_carta,
+            lixeira->topo->carta.imagem_carta,
             (Vector2){-35, 378},
             0,
             0.6f,
@@ -478,7 +482,8 @@ void visor_mao(mao *mao, player *jogador, pilha *lixeira, fila *fila)
 {
     // mostra as opcaos que o jogador pode escolher fazer com a carta
     opcoes_menu(mao, NULL, lixeira, jogador);
-    if (mao->carta_selecionada != NULL) {   
+    if (mao->carta_selecionada != NULL)
+    {
         // desenha a carta selecionada na mão do jogador
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
         DrawTextureEx(mao->carta_selecionada->carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
@@ -487,18 +492,20 @@ void visor_mao(mao *mao, player *jogador, pilha *lixeira, fila *fila)
         DrawRectangle(300, 650, 710, 48, Fade(BLACK, 0.6f));
         DrawTextEx(fonte, mao->carta_selecionada->carta.stats, (Vector2){310, 678}, 15, 0.5, (Color){255, 255, 255, 200});
         DrawTextEx(fonte, "Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
-    } else {
-        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE); 
+    }
+    else
+    {
+        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
     }
 
     DrawRectangle(15, 185, 430, 135, Fade(BLACK, 0.6f));
-        DrawTextEx(fonte, "1. Usar carta\n"
-                          "2. Colocar na lixeira\n"
-                          "3. Guardar no final da fila\n"
-                          "4. Colher carta da lixeira\n"
-                          "5. Aceitar a derrota\n"
-                          "6. Passar a vez",
-                   (Vector2){30, 200}, 15, 0, (Color){255, 255, 255, 200});
+    DrawTextEx(fonte, "1. Usar carta\n"
+                      "2. Colocar na lixeira\n"
+                      "3. Guardar no final da fila\n"
+                      "4. Colher carta da lixeira\n"
+                      "5. Aceitar a derrota\n"
+                      "6. Passar a vez",
+               (Vector2){30, 200}, 15, 0, (Color){255, 255, 255, 200});
     return;
 }
 
@@ -554,7 +561,8 @@ void proxima_carta(mao *mao, fila *fila)
 
 void carta_fila_pra_mão(mao *mao, pilha *lixeira, fila *fila)
 {
-    if(mao->carta_selecionada == NULL){
+    if (mao->carta_selecionada == NULL)
+    {
         if (fila->primeiro != NULL)
         {
             mao->carta_selecionada = fila->primeiro;
@@ -589,7 +597,7 @@ void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
     }
     else if (IsKeyPressed(KEY_TWO))
     {
-       descartar_carta(jogador->fila_player, lixeira, mao_jogador, jogador);
+        descartar_carta(jogador->fila_player, lixeira, mao_jogador, jogador);
     }
     else if (IsKeyPressed(KEY_THREE))
     {
@@ -597,7 +605,7 @@ void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
     }
     else if (IsKeyPressed(KEY_FOUR))
     {
-        colher_carta(jogador->fila_player,lixeira, jogador);
+        colher_carta(jogador->fila_player, lixeira, jogador);
         if (lixeira->topo == NULL)
         {
             efeito_ativo = 1;
@@ -661,7 +669,8 @@ void esvaziar_filas(fila *fila)
     return;
 }
 
-void esvaziar_pilha(pilha *lixeira){
+void esvaziar_pilha(pilha *lixeira)
+{
     if (lixeira->topo == NULL)
         return;
 
@@ -689,57 +698,21 @@ void game_over(void)
         if (id_loser_player == jogador2.id_player)
         {
             DrawTextureEx(jogador1WIN, (Vector2){0, 0}, 0, 0.7656, RAYWHITE);
+            DrawText("Obrigado por jogar <3", 40, 40, 30, WHITE);
         }
         else
         {
             DrawTextureEx(jogador2WIN, (Vector2){0, 0}, 0, 0.7656, RAYWHITE);
+            DrawText("Obrigado por jogar <3", 40, 40, 30, WHITE);
         }
         DrawRectangle(0, 0, 1280, 718, Fade(BLACK, transparencia));
         if (tempo_gameover >= 3.0f)
         {
-            recarregar_jogo();
+            tempo_gameover = 0;
+
+            gameover_ativo = 0;
         }
     }
-}
-void recarregar_jogo(void) // volta todos os dados originais do jogo, para que o jogador possa jogar novamente
-{
-    machado_assis = (carta){1, 1, 20, 0, 0, 0, 0, 0, 0, 1, .card_operation = Fmachado_assis, "machado de assis", "Da 20 de dano", "uma arma básica que causa uma quantia básica de dano"};
-
-    mike = (carta){2, 2, 35, 0, 0, 0, 0, 0, 0, 1, .card_operation = Fmike, "mike tyson", "Causa 35 de dano", "\"evitherathe your enemith\""};
-
-    lágrimas = (carta){3, 1, 0, 15, 0, 0, 0, 0, 0, 1, .card_operation = Flágrimas, "Lágrimas da santa", "cura 15 de pv", "Lágrimas de uma santa esquecida pelo tempo, possuem propriedades de cura."};
-
-    escudo = (carta){4, 1, 0, 0, 10, 0, 0, 0, 0, 1, .card_operation = Fescudo, "Placa de aço", "Da 10 de escudo", "Uma placa de aço de procedência desconhecida, encontrada jogada por aí. \"Do androids dream of eletrical sheep?\""};
-
-    aura = (carta){5, 1, 0, 8, 5, 0, 0, 0, 0, 1, .card_operation = Faura, "Escudo de aura", "cura 8 de vida e 5 de escudo", "Um escudo de aura com propriedades curativas"};
-
-    marca_besta = (carta){6, 1, 0, 0, 0, 15, 0, 10, 0, 1, .card_operation = Fmarca_besta, "Marca da besta", "aumenta o dano causado em 15 e recebido em 10", "Maldição que aumenta o dano inflingido ao custo de fragilizar o portador"};
-
-    espinafre = (carta){7, 1, 0, 0, 0, 10, 0, 0, 0, 1, .card_operation = Fespinafre, "leite de boi", "aumenta o dano em 10", "deixa o caba mais forte"};
-
-    benção = (carta){8, 1, 0, 0, 0, 0, 3, 0, 0, 1, .card_operation = Fbenção, "Benção", "aumenta a eficiencia de cartas de cura em 3", "\"You feel blessed\""};
-
-    beijo = (carta){9, 1, 0, 0, 0, 0, 0, 10, 0, 1, .card_operation = Fbeijo, "Beijo de judas", "diminui o dano do seu inimigo em 10", "Um símbolo de traição e a venda de seus companheiros."};
-
-    marca_morte = (carta){10, 1, 0, 0, 0, 0, 0, 0, 4, 1, .card_operation = Fmarca_morte, "marca da morte", "diminui a cura do inimigo em 4", "\"lets dance\""};
-
-    posicao = (Vector2){0, 0};
-
-    turno = 0;
-
-    jogador1 = (player){1, 100, 20, 0, 0, 2};
-
-    jogador2 = (player){2, 100, 20, 0, 0, 2};
-
-    tela_menu = 0;
-
-    tempo_gameover = 0;
-
-    gameover_ativo = 0;
-
-    id_loser_player = 0;
-
-    transparencia = 1.0f;
 }
 
 void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2)
@@ -751,19 +724,20 @@ void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *f
     }
 }
 
-void fix_player_stats(player *jogador){
+void fix_player_stats(player *jogador)
+{
     if (jogador->escudo > ESCUDO_MAX)
         jogador->escudo = ESCUDO_MAX;
 
-    if(jogador->vida_atual > VIDA_MAX)
+    if (jogador->vida_atual > VIDA_MAX)
         jogador->vida_atual = VIDA_MAX;
 
-    if(jogador->escudo < 0)
+    if (jogador->escudo < 0)
         jogador->escudo = 0;
-    
+
     if (jogador->heal_buff < 0)
         jogador->heal_buff = 0;
 
-    if(jogador->dmg_buff < 0)
+    if (jogador->dmg_buff < 0)
         jogador->dmg_buff = 0;
 }

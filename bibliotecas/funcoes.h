@@ -56,8 +56,6 @@ void carta_fila_pra_mão(mao *mao, pilha *lixeira, fila *fila);
 
 void game_over(void);
 
-void recarregar_jogo(void);
-
 void esvaziar_pilha(pilha *pilha);
 
 void esvaziar_filas(fila *fila);

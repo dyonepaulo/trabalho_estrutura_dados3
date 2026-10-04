@@ -19,7 +19,7 @@ int main()
     mao *mao_jogador2 = calloc(1, sizeof(mao));
     fila *fila_jogador1 = calloc(1, sizeof(fila));
     fila *fila_jogador2 = calloc(1, sizeof(fila));
-    
+
     if (lixeira == NULL || mao_jogador1 == NULL || mao_jogador2 == NULL || fila_jogador1 == NULL || fila_jogador2 == NULL)
     {
         printf("Falha na alocação de memória. ");
@@ -35,7 +35,7 @@ int main()
     fila_jogador2->ultimo = NULL;
 
     lixeira->topo = NULL;
-    
+
     mao_jogador1->carta_selecionada = NULL;
     mao_jogador2->carta_selecionada = NULL;
 
@@ -52,19 +52,27 @@ int main()
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        if (jogador2.vida_atual <= 0) {
+        if (jogador2.vida_atual <= 0)
+        {
             gameover_ativo = true;
             tela_menu = 3;
             id_loser_player == jogador2.id_player;
-        } 
-        
-        if (jogador1.vida_atual <=0) {
+        }
+
+        if (jogador1.vida_atual <= 0)
+        {
             gameover_ativo = true;
             tela_menu = 3;
             id_loser_player == jogador1.id_player;
         }
-
-        game_over();
+        if (gameover_ativo)
+        {
+            game_over();
+            if (!gameover_ativo)
+            {
+                goto fim; //manda pra linha 139
+            }
+        }
 
         if (tela_menu == 0)
         {
@@ -82,7 +90,7 @@ int main()
         {
             DrawTextureEx(background, posicao, 0, 0.7646f, RAYWHITE);
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
-        
+
             if (turno == 0)
             {
                 carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
@@ -94,7 +102,7 @@ int main()
                 proxima_carta(mao_jogador1, fila_jogador1); // em teste
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
-        
+
                 if (jogador1.energia <= 0)
                 {
                     jogador1.energia = 2;
@@ -104,7 +112,7 @@ int main()
             else
             {
                 if (turno == 1)
-                {   
+                {
                     carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
                     visor_mao(mao_jogador2, &jogador2, lixeira, fila_jogador2);
                     fix_player_stats(&jogador1);
@@ -112,11 +120,11 @@ int main()
                     visor_lixeiera(lixeira);
                     sprite_inimigo(jogador2.id_player);
                     proxima_carta(mao_jogador2, fila_jogador2); // em teste
-                    
+
                     barra_de_status(&jogador2);
                     mensagem_erro_lixeira();
                     // proxima_carta(mao_jogador2); //falta concertar parametro
-                    //ClearBackground(RAYWHITE);
+                    // ClearBackground(RAYWHITE);
 
                     if (jogador2.energia <= 0)
                     {
@@ -124,11 +132,11 @@ int main()
                         turno = 0;
                     }
                 }
-            }   
+            }
         }
         EndDrawing();
     }
-
+fim:
     esvaziar_filas(fila_jogador1);
     esvaziar_filas(fila_jogador2);
     esvaziar_pilha(lixeira);
@@ -137,6 +145,6 @@ int main()
     free(mao_jogador1);
     free(mao_jogador2);
     free(lixeira);
-    
+
     CloseWindow();
 }
