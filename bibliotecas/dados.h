@@ -2,6 +2,8 @@
 #ifndef VARIAVEIS_H
 #define VARIAVEIS_H
 
+#define VIDA_MAX 100
+#define ESCUDO_MAX 20
 // ESTRUTURAS DE DADOS
 typedef struct nos nos; // compilador precisa saber que existira uma struct chamada fila, para que eu consiga inicializar uma variavel do tipo fila dentro da propria estrutura fila
 typedef struct carta carta;

@@ -493,7 +493,7 @@ void visor_mao(mao *mao, player *jogador, pilha *lixeira, fila *fila)
                           "5. Aceitar a derrota\n"
                           "6. Passar a vez",
                    (Vector2){30, 200}, 15, 0, (Color){255, 255, 255, 200});
-        return;
+    return;
 }
 
 void sprite_inimigo(int id_jogador)
@@ -574,10 +574,14 @@ void teste(void)
 
 void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
 {
+    int error_type;
+
     if (IsKeyPressed(KEY_ONE))
     {
         // efeito_ativo = 1;
-        jogar_carta(jogador->fila_player, mao_jogador, jogador); 
+        error_type = jogar_carta(jogador->fila_player, mao_jogador, jogador);
+        ajuste_status_max(jogador);
+
     }
     else if (IsKeyPressed(KEY_TWO))
     {
@@ -740,4 +744,12 @@ void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *f
         printf("Falha na alocação de memória. ");
         exit(1);
     }
+}
+
+void ajuste_status_max(player *jogador){
+    if (jogador->escudo > ESCUDO_MAX)
+        jogador->escudo = ESCUDO_MAX;
+
+    if(jogador->vida_atual > VIDA_MAX)
+        jogador->vida_atual = VIDA_MAX;
 }

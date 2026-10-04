@@ -56,11 +56,14 @@ int main()
             gameover_ativo = true;
             tela_menu = 3;
             id_loser_player == jogador2.id_player;
-        } else if (jogador1.vida_atual <=0) {
+        } 
+        
+        if (jogador1.vida_atual <=0) {
             gameover_ativo = true;
             tela_menu = 3;
             id_loser_player == jogador1.id_player;
-        }  
+        }
+
         game_over();
 
         if (tela_menu == 0)
@@ -79,6 +82,7 @@ int main()
         {
             DrawTextureEx(background, posicao, 0, 0.7646f, RAYWHITE);
             DrawRectangle(0, 0, 1280, 720, Fade(BLACK, 0.2f)); // coloca um fitro preto na imagem para destacar as barras de status
+        
             if (turno == 0)
             {
                 carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
