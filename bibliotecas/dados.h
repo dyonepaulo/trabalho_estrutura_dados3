@@ -31,10 +31,10 @@ typedef struct
     int tamanho;
 } fila;
 
-typedef struct
+typedef struct 
 {
     nos *topo;
-} lixeira;
+} pilha;
 
 struct mao
 {
@@ -44,7 +44,7 @@ struct mao
 struct player
 {
     int id_player, vida_atual, escudo, dmg_buff, heal_buff, energia;
-    fila fila_player;
+    fila *fila_player;
 };
 
 // DEFINICAO DAS CARTAS
@@ -109,11 +109,11 @@ extern float tempo_efeito;
 
 extern int tela_menu;
 
-extern int gameover_ativo;
+extern _Bool gameover_ativo;
 
 extern float tempo_gameover;
 
-extern int id_jogador_desistente;
+extern int id_loser_player;
 
 extern Texture2D jogador1WIN;
 

@@ -74,10 +74,10 @@ float tempo_efeito;
 
 int tela_menu = 0;
 
-int gameover_ativo;
+_Bool gameover_ativo;
 
 float tempo_gameover = 0;
 
-int id_jogador_desistente = 0;
+int id_loser_player = 0;
 
 float transparencia = 1.0f;

@@ -28,15 +28,15 @@ void carregar_assets(void);
 
 void sprite_inimigo(int id_jogador);
 
-void visor_lixeiera(lixeira *lixeira);
+void visor_lixeiera(pilha *lixeira);
 
-void visor_mao(mao *mao_jogador, player *jogador, lixeira *lixeira, fila *fila);
+void visor_mao(mao *mao_jogador, player *jogador, pilha *lixeira, fila *fila);
 
 int guardar_carta(fila *fila, mao *hand, player *jogador);
 
 void proxima_carta(mao *mao, fila *fila);
 
-void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador);
+void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador);
 
 void teste(void);
 
@@ -48,21 +48,17 @@ void inserirNode(fila *fila);
 
 int jogar_carta(fila *fila, mao *hand, player *jogador);
 
-void descarte_carta(mao *hand, lixeira *pilha, player *jogador);
+int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador);
 
-int colher_carta(fila *fila, lixeira *pilha, player *jogador);
+int colher_carta(fila *fila, pilha *lixeira, player *jogador);
 
-int guardar_carta(fila *fila, mao *hand, player *jogador);
-
-void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila);
+void carta_fila_pra_mão(mao *mao, pilha *lixeira, fila *fila);
 
 void game_over(void);
 
 void recarregar_jogo(void);
 
-void erro_alocacao(lixeira *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2);
-
-void esvaziar_pilha(lixeira *pilha);
+void esvaziar_pilha(pilha *pilha);
 
 void esvaziar_filas(fila *fila);
 

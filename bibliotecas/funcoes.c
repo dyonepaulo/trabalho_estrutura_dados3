@@ -59,12 +59,12 @@ void inserirNode(fila *fila)
 
 void gerar_cartas(fila *fila)
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 3; i++)
         inserirNode(fila);
 
     nos *current = fila->primeiro;
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[6] = {0};                         // conta quantas vezes cada carta já apareceu
+    int contador[3] = {0};                         // conta quantas vezes cada carta já apareceu
 
     while (current)
     { // condição de saída do loop: somente quando current == NULL
@@ -139,7 +139,6 @@ int Fmachado_assis(carta card, player *jogador1, player *jogador2)
     }
 
     jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
-    card.turns_cont--;
 
     return 0;
 }
@@ -151,10 +150,12 @@ int Fmike(carta card, player *jogador1, player *jogador2)
     if (turno == 0)
     {
         jogador_afetado = jogador2;
+        jogador_caster = jogador1;
     }
     else
     {
         jogador_afetado = jogador1;
+        jogador_caster = jogador2;
     }
 
     jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
@@ -297,14 +298,18 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 
 int jogar_carta(fila *fila, mao *hand, player *jogador)
 {
+    if(jogador->energia - 1 < 0)
+        return 1;
+
     if (hand->carta_selecionada == NULL)
-        return 0;
+        return 2;
 
     int retorno_função = hand->carta_selecionada->carta.card_operation((hand->carta_selecionada->carta), &jogador1, &jogador2);
     free(hand->carta_selecionada);
+    hand->carta_selecionada = NULL;
 
     if (fila->primeiro == NULL)
-        return 0;
+        return 3;
 
     nos *temp = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
@@ -315,39 +320,49 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
     return 0;
 }
 
-int descartar_carta(fila *fila, lixeira *pilha, mao *hand, player *jogador)
+int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador)
 {
-    if (hand->carta_selecionada == NULL)
-        return 0;
+    if(hand->carta_selecionada ==  NULL){
+        return 1;
+    }
 
-    if (pilha->topo == NULL)
+    if (lixeira->topo == NULL)
     {
-        pilha->topo = hand->carta_selecionada;
-        pilha->topo->proximo = NULL;
+        lixeira->topo = hand->carta_selecionada;
+        lixeira->topo->proximo = NULL;
     }
     else
     {
-        hand->carta_selecionada->proximo = pilha->topo;
-        pilha->topo = hand->carta_selecionada;
+        hand->carta_selecionada->proximo = lixeira->topo;
+        lixeira->topo = hand->carta_selecionada;
     }
 
     // avançando a fila...
+    if (fila->primeiro == NULL){
+        hand->carta_selecionada = NULL;
+        return 2;
+    }
+    
     nos *temp = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
 
     jogador->energia--;
     fila->tamanho--;
+   
     return 0;
 }
 
-int colher_carta(fila *fila, lixeira *pilha, player *jogador)
+int colher_carta(fila *fila, pilha *lixeira, player *jogador)
 {
-    if (pilha->topo == NULL)
-        return 0;
+    if(jogador->energia - 1 < 0)
+        return 1;
 
-    nos *temp = pilha->topo;
-    pilha->topo = pilha->topo->proximo;
+    if (lixeira->topo == NULL)
+        return 2;
+
+    nos *temp = lixeira->topo;
+    lixeira->topo = lixeira->topo->proximo;
 
     if (fila->primeiro == NULL)
     {
@@ -368,8 +383,11 @@ int colher_carta(fila *fila, lixeira *pilha, player *jogador)
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if (hand->carta_selecionada == NULL)
-        return 0;
+    if(jogador->energia - 2 < 0)
+        return 1;
+
+    if(hand->carta_selecionada == NULL)
+        return 2;
 
     if (fila->primeiro == NULL)
     {
@@ -416,7 +434,7 @@ void carregar_assets(void)
     return;
 }
 
-void visor_lixeiera(lixeira *lixeira)
+void visor_lixeiera(pilha *lixeira) // ta imcompleto
 {
     if (lixeira->topo == NULL)
     {
@@ -429,7 +447,7 @@ void visor_lixeiera(lixeira *lixeira)
         DrawRectangle(10, 370, 200, 300, GRAY);
 
         DrawTextureEx(
-            lixeira->topo->carta.imagem_carta,
+             lixeira->topo->carta.imagem_carta,
             (Vector2){-35, 378},
             0,
             0.6f,
@@ -445,27 +463,24 @@ void visor_lixeiera(lixeira *lixeira)
     return;
 }
 
-void visor_mao(mao *mao, player *jogador, lixeira *lixeira, fila *fila)
+void visor_mao(mao *mao, player *jogador, pilha *lixeira, fila *fila)
 {
-    if (mao->carta_selecionada == NULL)
-    {
-        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
-        return;
-    }
-    else
-    {
-        opcoes_menu(mao, fila, lixeira, jogador);
+    // mostra as opcaos que o jogador pode escolher fazer com a carta
+    opcoes_menu(mao, NULL, NULL, jogador);
+    if (mao->carta_selecionada != NULL) {   
         // desenha a carta selecionada na mão do jogador
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
         DrawTextureEx(mao->carta_selecionada->carta.imagem_carta, (Vector2){950, 345}, 5, .6, RAYWHITE);
 
-        // descreve os stats da carta selecionada na mão do jogador
+        // descreve os stats da carta selecionadvisor_maoa na mão do jogador
         DrawRectangle(300, 650, 710, 48, Fade(BLACK, 0.6f));
         DrawTextEx(fonte, mao->carta_selecionada->carta.stats, (Vector2){310, 678}, 15, 0.5, (Color){255, 255, 255, 200});
         DrawTextEx(fonte, "Efeito da carta Atual:", (Vector2){310, 655}, 15, 0.5, RED);
+    } else {
+        DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE); 
+    }
 
-        // mostra as opcaos que o jogador pode escolher fazer com a carta
-        DrawRectangle(15, 185, 430, 135, Fade(BLACK, 0.6f));
+    DrawRectangle(15, 185, 430, 135, Fade(BLACK, 0.6f));
         DrawTextEx(fonte, "1. Usar carta\n"
                           "2. Colocar na lixeira\n"
                           "3. Guardar no final da fila\n"
@@ -474,17 +489,11 @@ void visor_mao(mao *mao, player *jogador, lixeira *lixeira, fila *fila)
                           "6. Passar a vez",
                    (Vector2){30, 200}, 15, 0, (Color){255, 255, 255, 200});
         return;
-        if (lixeira->topo == NULL)
-        {
-            DrawRectangle(20, 257, 400, 3, WHITE);
-            return;
-        }
-    }
 }
 
 void sprite_inimigo(int id_jogador)
 {
-    if (id_jogador == 0)
+    if (id_jogador == jogador2.id_player)
     {
         DrawTextureEx(sprite_jogador1, (Vector2){500, 220}, 0, .3, RAYWHITE);
         Rectangle retangulofundo_inimigo = {515, 180, 200, 20};
@@ -532,49 +541,50 @@ void proxima_carta(mao *mao, fila *fila)
     }
 }
 
-void carta_fila_pra_mão(mao *mao, lixeira *pilha, fila *fila)
+void carta_fila_pra_mão(mao *mao, pilha *lixeira, fila *fila)
 {
-    if (mao->carta_selecionada != NULL)
-    {
+    if(mao->carta_selecionada == NULL){
         if (fila->primeiro != NULL)
         {
             mao->carta_selecionada = fila->primeiro;
             fila->primeiro = fila->primeiro->proximo;
             mao->carta_selecionada->proximo = NULL;
-            if (fila->primeiro == NULL)
-            {
-                fila->ultimo = NULL;
-            }
+            fila->tamanho--;
         }
         else
         {
-            if (pilha->topo == NULL && mao->carta_selecionada == NULL)
+            if (lixeira->topo == NULL)
             {
                 gerar_cartas(fila);
             }
         }
     }
 }
+
 void teste(void)
 {
 
     DrawRectangle(0, 0, 1280, 720, Fade(RED, 0.2f));
 }
 
-void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador)
+void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
 {
     if (IsKeyPressed(KEY_ONE))
     {
+        // efeito_ativo = 1;
+        jogar_carta(jogador->fila_player, mao_jogador, jogador); 
     }
     else if (IsKeyPressed(KEY_TWO))
     {
+       descartar_carta(jogador->fila_player, lixeira, mao_jogador, jogador);
     }
     else if (IsKeyPressed(KEY_THREE))
     {
-        // ação para a opção 3
+        guardar_carta(jogador->fila_player, mao_jogador, jogador);
     }
     else if (IsKeyPressed(KEY_FOUR))
     {
+        colher_carta(jogador->fila_player,lixeira, jogador);
         if (lixeira->topo == NULL)
         {
             efeito_ativo = 1;
@@ -585,7 +595,7 @@ void opcoes_menu(mao *mao_jogador, fila *fila, lixeira *lixeira, player *jogador
     {
         gameover_ativo = 1;
         tela_menu = 3;
-        id_jogador_desistente = jogador->id_player;
+        id_loser_player = jogador->id_player;
     }
     else if (IsKeyPressed(KEY_SIX))
     {
@@ -636,22 +646,22 @@ void esvaziar_filas(fila *fila)
     return;
 }
 
-void esvaziar_pilha(lixeira *pilha)
-{
-    if (pilha->topo == NULL)
+void esvaziar_pilha(pilha *lixeira){
+    if (lixeira->topo == NULL)
         return;
 
-    nos *atual = pilha->topo;
+    nos *atual = lixeira->topo;
     nos *prox = atual;
 
     while (atual != NULL)
     {
         prox = atual->proximo;
+        prox = atual->proximo;
         free(atual);
         atual = prox;
     }
 
-    pilha->topo = NULL;
+    lixeira->topo = NULL;
     return;
 }
 void game_over(void)
@@ -661,7 +671,7 @@ void game_over(void)
         tempo_gameover += GetFrameTime();
         transparencia -= GetFrameTime();
 
-        if (id_jogador_desistente == jogador1.id_player)
+        if (id_loser_player == jogador2.id_player)
         {
             DrawTextureEx(jogador1WIN, (Vector2){0, 0}, 0, 0.7656, RAYWHITE);
         }
@@ -712,11 +722,11 @@ void recarregar_jogo(void) // volta todos os dados originais do jogo, para que o
 
     gameover_ativo = 0;
 
-    id_jogador_desistente = 0;
+    id_loser_player = 0;
 
     transparencia = 1.0f;
 }
-void erro_alocacao(lixeira *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2)
+void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2)
 {
     if (lixeira == NULL || mao_jogador1 == NULL || mao_jogador2 == NULL || fila_jogador1 == NULL || fila_jogador2 == NULL)
     {
