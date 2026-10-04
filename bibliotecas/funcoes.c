@@ -59,7 +59,7 @@ void inserirNode(fila *fila)
 
 void gerar_cartas(fila *fila)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
         inserirNode(fila);
 
     nos *current = fila->primeiro;
@@ -142,7 +142,10 @@ int Fmachado_assis(carta card, player *jogador1, player *jogador2)
         jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
+    if (jogador_afetado->escudo > 0)
+        jogador_afetado->escudo -= card.dano + jogador_caster->dmg_buff;
+    else
+        jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
 
     return 0;
 }
@@ -162,7 +165,10 @@ int Fmike(carta card, player *jogador1, player *jogador2)
         jogador_caster = jogador2;
     }
 
-    jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
+    if (jogador_afetado->escudo > 0)
+        jogador_afetado->escudo -= card.dano + jogador_caster->dmg_buff;
+    else
+        jogador_afetado->vida_atual -= card.dano + jogador_caster->dmg_buff;
 
     return 0;
 }
@@ -302,13 +308,14 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 
 int jogar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if (jogador->energia - 1 < 0) {
-        return 1;
-    }
-    jogador->energia--;
-
     if (hand->carta_selecionada == NULL)
+        return 1;
+
+    if (jogador->energia - 1 < 0) {
         return 2;
+    }
+
+    jogador->energia--;
 
     int retorno_função = hand->carta_selecionada->carta.card_operation((hand->carta_selecionada->carta), &jogador1, &jogador2);
     free(hand->carta_selecionada);
@@ -352,7 +359,6 @@ int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador)
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
 
-    jogador->energia--;
     fila->tamanho--;
    
     return 0;
@@ -388,7 +394,7 @@ int colher_carta(fila *fila, pilha *lixeira, player *jogador)
 
 int guardar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if(jogador->energia - 2 < 0)
+    if(jogador->energia - 1 < 0)
         return 1;
 
     if(hand->carta_selecionada == NULL)
@@ -411,7 +417,7 @@ int guardar_carta(fila *fila, mao *hand, player *jogador)
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
 
-    jogador->energia -= 2;
+    jogador->energia--;
     return 0;
 }
 
@@ -580,8 +586,6 @@ void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
     {
         // efeito_ativo = 1;
         error_type = jogar_carta(jogador->fila_player, mao_jogador, jogador);
-        ajuste_status_max(jogador);
-
     }
     else if (IsKeyPressed(KEY_TWO))
     {
@@ -737,6 +741,7 @@ void recarregar_jogo(void) // volta todos os dados originais do jogo, para que o
 
     transparencia = 1.0f;
 }
+
 void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *fila_jogador1, fila *fila_jogador2)
 {
     if (lixeira == NULL || mao_jogador1 == NULL || mao_jogador2 == NULL || fila_jogador1 == NULL || fila_jogador2 == NULL)
@@ -746,10 +751,19 @@ void erro_alocacao(pilha *lixeira, mao *mao_jogador1, mao *mao_jogador2, fila *f
     }
 }
 
-void ajuste_status_max(player *jogador){
+void fix_player_stats(player *jogador){
     if (jogador->escudo > ESCUDO_MAX)
         jogador->escudo = ESCUDO_MAX;
 
     if(jogador->vida_atual > VIDA_MAX)
         jogador->vida_atual = VIDA_MAX;
+
+    if(jogador->escudo < 0)
+        jogador->escudo = 0;
+    
+    if (jogador->heal_buff < 0)
+        jogador->heal_buff = 0;
+
+    if(jogador->dmg_buff < 0)
+        jogador->dmg_buff = 0;
 }

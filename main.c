@@ -87,6 +87,8 @@ int main()
             {
                 carta_fila_pra_mão(mao_jogador1, lixeira, fila_jogador1);
                 visor_mao(mao_jogador1, &jogador1, lixeira, fila_jogador1);
+                fix_player_stats(&jogador1);
+                fix_player_stats(&jogador2);
                 visor_lixeiera(lixeira);
                 sprite_inimigo(jogador1.id_player);
                 proxima_carta(mao_jogador1, fila_jogador1); // em teste
@@ -105,9 +107,12 @@ int main()
                 {   
                     carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
                     visor_mao(mao_jogador2, &jogador2, lixeira, fila_jogador2);
+                    fix_player_stats(&jogador1);
+                    fix_player_stats(&jogador2);
                     visor_lixeiera(lixeira);
                     sprite_inimigo(jogador2.id_player);
                     proxima_carta(mao_jogador2, fila_jogador2); // em teste
+                    
                     barra_de_status(&jogador2);
                     mensagem_erro_lixeira();
                     // proxima_carta(mao_jogador2); //falta concertar parametro
@@ -132,5 +137,6 @@ int main()
     free(mao_jogador1);
     free(mao_jogador2);
     free(lixeira);
+    
     CloseWindow();
 }

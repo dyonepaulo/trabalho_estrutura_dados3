@@ -62,6 +62,6 @@ void esvaziar_pilha(pilha *pilha);
 
 void esvaziar_filas(fila *fila);
 
-void ajuste_status_max(player *jogador);
+void fix_player_stats(player *jogador);
 
 #endif
