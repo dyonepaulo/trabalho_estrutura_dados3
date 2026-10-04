@@ -86,9 +86,6 @@ int main()
                 visor_lixeiera(lixeira);
                 sprite_inimigo(jogador1.id_player);
                 proxima_carta(mao_jogador1, fila_jogador1); // em teste
-                visor_mao(mao_jogador1, &jogador1, lixeira,fila_jogador1);
-                visor_lixeiera(lixeira);
-                sprite_inimigo(0);
                 barra_de_status(&jogador1);
                 mensagem_erro_lixeira();
         
@@ -102,7 +99,7 @@ int main()
             {
                 if (turno == 1)
                 {   
-                    carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador1);
+                    carta_fila_pra_mão(mao_jogador2, lixeira, fila_jogador2);
                     visor_mao(mao_jogador2, &jogador2, lixeira, fila_jogador2);
                     visor_lixeiera(lixeira);
                     sprite_inimigo(jogador2.id_player);

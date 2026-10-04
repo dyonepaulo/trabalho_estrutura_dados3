@@ -64,7 +64,7 @@ void gerar_cartas(fila *fila)
 
     nos *current = fila->primeiro;
     int limite[] = {3, 1, 2, 2, 2, 1, 1, 2, 1, 1}; // limite de quantas vezes cada carta pode aparecer, por ordem de ID
-    int contador[3] = {0};                         // conta quantas vezes cada carta já apareceu
+    int contador[10] = {0};                         // conta quantas vezes cada carta já apareceu
 
     while (current)
     { // condição de saída do loop: somente quando current == NULL
@@ -118,6 +118,10 @@ void gerar_cartas(fila *fila)
             break;
         }
         current = current->proximo;
+    }
+    
+    for(int i = 0 ; i < 9; i++){
+        contador[i] = 0;
     }
 }
 
@@ -298,8 +302,10 @@ int Fmarca_morte(carta card, player *jogador1, player *jogador2)
 
 int jogar_carta(fila *fila, mao *hand, player *jogador)
 {
-    if(jogador->energia - 1 < 0)
+    if (jogador->energia - 1 < 0) {
         return 1;
+    }
+    jogador->energia--;
 
     if (hand->carta_selecionada == NULL)
         return 2;
@@ -315,7 +321,6 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
     fila->primeiro = fila->primeiro->proximo;
     hand->carta_selecionada = temp;
 
-    jogador->energia--;
     fila->tamanho--;
     return 0;
 }
@@ -466,7 +471,7 @@ void visor_lixeiera(pilha *lixeira) // ta imcompleto
 void visor_mao(mao *mao, player *jogador, pilha *lixeira, fila *fila)
 {
     // mostra as opcaos que o jogador pode escolher fazer com a carta
-    opcoes_menu(mao, NULL, NULL, jogador);
+    opcoes_menu(mao, NULL, lixeira, jogador);
     if (mao->carta_selecionada != NULL) {   
         // desenha a carta selecionada na mão do jogador
         DrawTextureEx(icon_mao, (Vector2){900, 240}, 0, 1, RAYWHITE);
@@ -602,10 +607,12 @@ void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
         if (jogador->id_player == 1)
         {
             turno = 1;
+            jogador->energia = 2;
         }
         else
         {
             turno = 0;
+            jogador->energia = 2;
         }
     }
 }
