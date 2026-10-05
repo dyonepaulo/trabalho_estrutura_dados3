@@ -117,7 +117,6 @@ int main()
                     sprite_inimigo(jogador2.id_player);
                     proxima_carta(mao_jogador2, fila_jogador2); // em teste
                     barra_de_status(&jogador2);
-                    consulta_pilha(lixeira);
                     mensagem_erro_lixeira();
 
                     if (jogador2.energia <= 0)
