@@ -313,9 +313,7 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
         return 1;
 
     if (jogador->energia - 1 < 0)
-    {
         return 2;
-    }
 
     jogador->energia--;
 
@@ -326,9 +324,12 @@ int jogar_carta(fila *fila, mao *hand, player *jogador)
     if (fila->primeiro == NULL)
         return 3;
 
-    nos *temp = fila->primeiro;
+    if (fila->ultimo == fila->primeiro)
+        fila->ultimo = NULL;
+
+    hand->carta_selecionada = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
-    hand->carta_selecionada = temp;
+    hand->carta_selecionada->proximo = NULL;
 
     fila->tamanho--;
     return 0;
@@ -359,12 +360,14 @@ int descartar_carta(fila *fila, pilha *lixeira, mao *hand, player *jogador)
         return 2;
     }
 
-    nos *temp = fila->primeiro;
+    if (fila->ultimo == fila->primeiro)
+        fila->ultimo = NULL;
+
+    hand->carta_selecionada = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
-    hand->carta_selecionada = temp;
+    hand->carta_selecionada->proximo = NULL;
 
     fila->tamanho--;
-
     return 0;
 }
 
@@ -378,6 +381,7 @@ int colher_carta(fila *fila, pilha *lixeira, player *jogador)
 
     nos *temp = lixeira->topo;
     lixeira->topo = lixeira->topo->proximo;
+    temp->proximo = NULL;
 
     if (fila->primeiro == NULL)
     {
@@ -389,6 +393,7 @@ int colher_carta(fila *fila, pilha *lixeira, player *jogador)
     {
         fila->ultimo->proximo = temp;
         fila->ultimo = temp;
+        fila->ultimo->proximo;
     }
 
     jogador->energia--;
@@ -405,21 +410,15 @@ int guardar_carta(fila *fila, mao *hand, player *jogador)
         return 2;
 
     if (fila->primeiro == NULL)
-    {
-        fila->primeiro = hand->carta_selecionada;
-        fila->ultimo = hand->carta_selecionada;
-    }
-    else
-    {
-        fila->ultimo->proximo = hand->carta_selecionada;
-        fila->ultimo = hand->carta_selecionada;
-    }
-
+        return 3;
+    
+    fila->ultimo->proximo = hand->carta_selecionada;
+    fila->ultimo = hand->carta_selecionada;
     fila->ultimo->proximo = NULL;
 
-    nos *temp = fila->primeiro;
+    hand->carta_selecionada = fila->primeiro;
     fila->primeiro = fila->primeiro->proximo;
-    hand->carta_selecionada = temp;
+    hand->carta_selecionada->proximo = NULL;
 
     jogador->energia--;
     return 0;
@@ -565,6 +564,9 @@ void carta_fila_pra_mão(mao *mao, pilha *lixeira, fila *fila)
     {
         if (fila->primeiro != NULL)
         {
+            if (fila->ultimo == fila->primeiro)
+                fila->ultimo = NULL;
+
             mao->carta_selecionada = fila->primeiro;
             fila->primeiro = fila->primeiro->proximo;
             mao->carta_selecionada->proximo = NULL;
@@ -601,7 +603,12 @@ void opcoes_menu(mao *mao_jogador, fila *fila, pilha *lixeira, player *jogador)
     }
     else if (IsKeyPressed(KEY_THREE))
     {
-        guardar_carta(jogador->fila_player, mao_jogador, jogador);
+        error_type = guardar_carta(jogador->fila_player, mao_jogador, jogador);
+        if(error_type == 3)
+        {
+            efeito_ativo = 1;
+            return;
+        }
     }
     else if (IsKeyPressed(KEY_FOUR))
     {
@@ -680,7 +687,6 @@ void esvaziar_pilha(pilha *lixeira)
     while (atual != NULL)
     {
         prox = atual->proximo;
-        prox = atual->proximo;
         free(atual);
         atual = prox;
     }
@@ -740,4 +746,13 @@ void fix_player_stats(player *jogador)
 
     if (jogador->dmg_buff < 0)
         jogador->dmg_buff = 0;
+}
+
+void esvaziar_mao(mao *hand1, mao *hand2){
+    if (hand1->carta_selecionada != NULL) {
+        free(hand1->carta_selecionada);
+    }
+    if (hand2->carta_selecionada != NULL) {
+        free(hand2->carta_selecionada);
+    }
 }

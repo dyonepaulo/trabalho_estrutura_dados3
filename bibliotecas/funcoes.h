@@ -62,4 +62,8 @@ void esvaziar_filas(fila *fila);
 
 void fix_player_stats(player *jogador);
 
+void esvaziar_mao(mao *hand1, mao *hand2);
+
+void consulta_pilha(pilha *lixeira);
+
 #endif

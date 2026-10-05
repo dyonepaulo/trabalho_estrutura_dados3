@@ -42,10 +42,6 @@ int main()
     carregar_assets();
     gerar_cartas(fila_jogador1);
     gerar_cartas(fila_jogador2);
-    mao_jogador1->carta_selecionada = fila_jogador1->primeiro;
-    fila_jogador1->primeiro = fila_jogador1->primeiro->proximo;
-    mao_jogador2->carta_selecionada = fila_jogador2->primeiro;
-    fila_jogador2->primeiro = fila_jogador2->primeiro->proximo;
 
     while (!WindowShouldClose())
     {
@@ -56,7 +52,7 @@ int main()
         {
             gameover_ativo = true;
             tela_menu = 3;
-            id_loser_player == jogador2.id_player;
+            id_loser_player = jogador2.id_player;
         }
 
         if (jogador1.vida_atual <= 0)
@@ -70,7 +66,7 @@ int main()
             game_over();
             if (!gameover_ativo)
             {
-                goto fim; //manda pra linha 139
+                break; //manda pra linha 139
             }
         }
 
@@ -101,6 +97,7 @@ int main()
                 sprite_inimigo(jogador1.id_player);
                 proxima_carta(mao_jogador1, fila_jogador1); // em teste
                 barra_de_status(&jogador1);
+                consulta_pilha(lixeira);
                 mensagem_erro_lixeira();
 
                 if (jogador1.energia <= 0)
@@ -120,11 +117,9 @@ int main()
                     visor_lixeiera(lixeira);
                     sprite_inimigo(jogador2.id_player);
                     proxima_carta(mao_jogador2, fila_jogador2); // em teste
-
                     barra_de_status(&jogador2);
+                    consulta_pilha(lixeira);
                     mensagem_erro_lixeira();
-                    // proxima_carta(mao_jogador2); //falta concertar parametro
-                    // ClearBackground(RAYWHITE);
 
                     if (jogador2.energia <= 0)
                     {
@@ -136,12 +131,12 @@ int main()
         }
         EndDrawing();
     }
-fim:
     esvaziar_filas(fila_jogador1);
     esvaziar_filas(fila_jogador2);
     esvaziar_pilha(lixeira);
     free(fila_jogador1);
     free(fila_jogador2);
+    esvaziar_mao(mao_jogador1, mao_jogador2);
     free(mao_jogador1);
     free(mao_jogador2);
     free(lixeira);
